@@ -1,12 +1,9 @@
 import { Geist, Geist_Mono, Urbanist } from "next/font/google";
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/utils/supabase/server";
-
 import type { Metadata } from "next";
 
 import "../globals.css";
-import { getUser } from "@/utils/users/getUser";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
