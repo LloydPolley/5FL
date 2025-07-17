@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const urbanist = Urbanist({
+const urbanist = Urbanist({
   variable: "--font-urbanist",
   subsets: ["latin"],
   display: "swap",
