@@ -16,7 +16,5 @@ export default async function Games() {
     return <div>Error loading team members</div>;
   }
 
-  console.log("teamMembers", data);
-
   return <GameWrapper user={user} teamMembers={data} />;
 }

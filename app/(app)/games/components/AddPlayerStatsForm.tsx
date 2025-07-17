@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import ReactSwitch from "react-switch";
 
@@ -26,13 +26,17 @@ export default function AddPlayerStatsForm({
   const [assists, setAssists] = useState<number>(0);
   const [gk, setGK] = useState<number>(0);
 
-  const [, formAction] = useActionState(addStatsToGame, initState);
+  const [formState, formAction] = useActionState(addStatsToGame, initState);
+
+  useEffect(() => {
+    console.log("success", user.id, formState?.success);
+  }, [formState, user.id]);
 
   return (
     <form
       action={formAction}
       className={`border rounded-xl p-8 flex flex-col gap-4 bg-slate-100 overflow-hidden ${
-        !appearance ? "h-[100px]" : "h-auto"
+        !appearance || formState?.success ? "h-[100px]" : "h-auto"
       }`}
     >
       <input type="hidden" name="user_id" value={id} />
