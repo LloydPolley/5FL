@@ -4,18 +4,40 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0a0a0a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    /* --background: #0a0a0a; */
     --foreground: #ededed;
   }
 }
 
 body {
-  color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font-family: "Urbanist", Courier, monospace;
+}
+
+.form {
+  @apply w-full max-w-sm p-8 space-y-6 text-left;
+}
+
+.input-text {
+  @apply py-2 border-2 text-black mb-4 rounded-xl p-4;
+}
+
+.btn-primary {
+}
+
+.input-form {
+  @apply w-full rounded-lg border px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-200 bg-gray-100 font-bold text-black;
+}
+
+.main-btn {
+  @apply w-full rounded-lg bg-blue-600 text-white font-semibold py-4 hover:bg-blue-700 transition;
 }
