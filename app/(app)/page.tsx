@@ -79,7 +79,7 @@ export default async function Home() {
                     gk: number;
                     id: number;
                   }) => {
-                    const { users, appearance, goals, assists, gk, id } = stats;
+                    const { users, goals, assists, gk, id } = stats;
                     return (
                       <tr key={id} className="hover:bg-gray-100">
                         <td className="border border-gray-300 px-4 py-2">
