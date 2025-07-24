@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useActionState } from "react";
 
 import { createGame } from "../actions";
@@ -20,20 +20,27 @@ export default function CreateGameForm({
   setGameId: (id: string) => void;
   seasonId: string;
 }) {
-  const [opponentName, setOpponentName] = useState<string>("");
-  const [teamScore, setTeamScore] = useState<number>(0);
-  const [opponentScore, setOpponentScore] = useState<number>(0);
+  const [opponentName, setOpponentName] = useState("");
+  const [teamScore, setTeamScore] = useState(0);
+  const [opponentScore, setOpponentScore] = useState(0);
+
+  const [isPending, startTransition] = useTransition();
+
+  console.log("isPending", isPending);
 
   const [formStateCreate, formActionCreate] = useActionState(
-    createGame,
+    async (prevState, formData) => {
+      let result;
+      startTransition(() => {}); // triggers pending
+      result = await createGame(prevState, formData);
+      return result;
+    },
     initState
   );
 
   useEffect(() => {
     if (formStateCreate?.gameId) setGameId(formStateCreate?.gameId);
   }, [formStateCreate.gameId, setGameId]);
-
-  console.log("formStateCreate", formStateCreate);
 
   return (
     <form
@@ -61,22 +68,23 @@ export default function CreateGameForm({
 
       <ScoreWidget
         text="Fulham Ballers"
-        name={"team_score"}
+        name="team_score"
         score={teamScore}
         setScore={setTeamScore}
       />
       <ScoreWidget
         text={opponentName || "Opponent"}
-        name={"opponent_score"}
+        name="opponent_score"
         score={opponentScore}
         setScore={setOpponentScore}
       />
 
       <button
-        className="bg-black text-white px-4 py-2 rounded-md font-bold"
+        className="bg-black text-white px-4 py-2 rounded-md font-bold disabled:opacity-50"
         type="submit"
+        disabled={isPending}
       >
-        Add Game
+        {isPending ? "Adding..." : "Add Game"}
       </button>
     </form>
   );
