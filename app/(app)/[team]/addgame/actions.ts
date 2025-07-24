@@ -42,7 +42,7 @@ export async function createGame(
     };
   }
 
-  revalidatePath("/");
+  revalidatePath(`/${team_id}/games`);
 
   (await cookies()).set("game_id", gameData.id, {});
 
@@ -96,7 +96,7 @@ export async function addStatsToGame(
     };
   }
 
-  revalidatePath("/");
+  revalidatePath(`/`);
 
   return {
     success: true,

@@ -48,11 +48,6 @@ export default async function Nav() {
               </Link>
             );
           })}
-          <form action={signOutAction}>
-            <button type="submit">
-              <LogOut />
-            </button>
-          </form>
         </div>
       )}
     </nav>
