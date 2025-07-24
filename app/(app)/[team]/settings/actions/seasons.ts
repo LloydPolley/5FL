@@ -12,13 +12,20 @@ export async function createSeason(
   const supabase = await createClient();
 
   const seasonName = formData.get("seasonName") as string;
+
+  //get team_id from getUser
+
   const team_id = formData.get("teamId") as string;
+  const startDate = formData.get("startDate") as string;
+
+  console.log("startDate", startDate);
 
   const { error, data } = await supabase
     .from("seasons")
     .insert({
       name: seasonName,
       team_id: team_id,
+      date: startDate,
     })
     .select();
 

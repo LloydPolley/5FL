@@ -13,13 +13,13 @@ const initState = {
 };
 
 export default function AddPlayerStatsForm({
-  user,
+  player,
   gameId,
 }: {
-  user: { name: string; id: number };
+  player: { name: string; id: number };
   gameId: string;
 }) {
-  const { name, id } = user;
+  const { name, id } = player;
 
   const [appearance, setAppearance] = useState(false);
   const [goals, setGoals] = useState<number>(0);
@@ -27,10 +27,6 @@ export default function AddPlayerStatsForm({
   const [gk, setGK] = useState<number>(0);
 
   const [formState, formAction] = useActionState(addStatsToGame, initState);
-
-  useEffect(() => {
-    console.log("success", user.id, formState?.success);
-  }, [formState, user.id]);
 
   return (
     <form

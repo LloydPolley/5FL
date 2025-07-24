@@ -12,11 +12,13 @@ const initState = {
 };
 
 export default function CreateGameForm({
-  user,
+  teamId,
   setGameId,
+  seasonId,
 }: {
-  user: { UID: string; team_id: string };
+  teamId: string;
   setGameId: (id: string) => void;
+  seasonId: string;
 }) {
   const [opponentName, setOpponentName] = useState<string>("");
   const [teamScore, setTeamScore] = useState<number>(0);
@@ -34,8 +36,11 @@ export default function CreateGameForm({
   console.log("formStateCreate", formStateCreate);
 
   return (
-    <form className="m-auto flex flex-col" action={formActionCreate}>
-      <h1 className="text-gray-800 font-bold text-4xl my-10">Add Game</h1>
+    <form
+      className="border rounded-xl p-8 flex flex-col gap-4 bg-slate-100 overflow-hidden"
+      action={formActionCreate}
+    >
+      <h1 className="text-gray-800 font-bold text-4xl mb-6">Add Game</h1>
 
       {formStateCreate?.message && (
         <p className="text-red-500 text-center">{formStateCreate.message}</p>
@@ -51,7 +56,8 @@ export default function CreateGameForm({
         required
       />
 
-      <input hidden type="text" name="team_id" defaultValue={user.team_id} />
+      <input hidden type="text" name="team_id" defaultValue={teamId} />
+      <input hidden type="text" name="season_id" defaultValue={seasonId} />
 
       <ScoreWidget
         text="Fulham Ballers"
@@ -67,7 +73,7 @@ export default function CreateGameForm({
       />
 
       <button
-        className="bg-blue-700 rounded-xl mt-5 p-4 font-bold text-white"
+        className="bg-black text-white px-4 py-2 rounded-md font-bold"
         type="submit"
       >
         Add Game

@@ -11,19 +11,27 @@ type TeamMemberType = {
 };
 
 export default function GameWrapper({
-  user,
+  teamId,
   teamMembers,
+  seasonId,
 }: {
-  user: { UID: string; team_id: string };
+  teamId: string;
   teamMembers: TeamMemberType[];
+  seasonId: string;
 }) {
   const [gameId, setGameId] = useState<string>("");
   return (
-    <div className="p-4 flex flex-col gap-4">
-      <CreateGameForm user={user} setGameId={setGameId} />
+    <div className="flex flex-col gap-4">
+      <CreateGameForm
+        teamId={teamId}
+        seasonId={seasonId}
+        setGameId={setGameId}
+      />
       {teamMembers.map((member) => {
         const { name } = member;
-        return <AddPlayerStatsForm key={name} user={member} gameId={gameId} />;
+        return (
+          <AddPlayerStatsForm key={name} player={member} gameId={gameId} />
+        );
       })}
       <button>Finish</button>
     </div>

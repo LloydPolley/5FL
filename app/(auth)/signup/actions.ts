@@ -13,6 +13,7 @@ export async function signup(
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const name = formData.get("name") as string;
+  const teamName = formData.get("teamName") as string;
 
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
@@ -20,21 +21,36 @@ export async function signup(
   });
 
   if (authError || !authData.user) {
-    console.log("SIGN UP ERROR", authError);
     return { message: "Signup failed: " + authError?.message };
   }
 
-  console.log("authData", authData);
-
-  const { error } = await supabase.from("users").insert({
+  const { error: userInsertError } = await supabase.from("users").insert({
     UID: authData.user.id,
     name,
   });
 
-  if (error) {
-    console.log("Player insert error", error);
-    return { message: "Insert failed: " + error.message };
+  if (userInsertError) {
+    return { message: "User insert failed: " + userInsertError.message };
   }
+
+  const { error: teamError, data: teamData } = await supabase
+    .from("teams")
+    .insert({
+      name: teamName,
+      manager: authData.user.id,
+    })
+    .select()
+    .single();
+
+  if (teamError) {
+    return { message: "Team insert failed: " + teamError.message };
+  }
+
+  // optionally update user with team_id now
+  await supabase
+    .from("users")
+    .update({ team_id: teamData.id })
+    .eq("UID", authData.user.id);
 
   redirect("/");
 }

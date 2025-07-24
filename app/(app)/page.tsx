@@ -1,111 +1,59 @@
+import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { getUser } from "@/utils/users/getUser";
 
 export default async function Home() {
   const supabase = await createClient();
-  const user = await getUser();
-
-  const { data: team } = await supabase
-    .from("teams")
-    .select()
-    .eq("manager", user?.UID)
-    .limit(1)
-    .single();
-
-  // console.log("team", team);
-
-  // const { data: season } = await supabase
-  //   .from("seasons")
-  //   .select()
-  //   .eq("team_id", user.team_id)
-  //   .limit(1)
-  //   .single();
-
-  const { data } = await supabase
-    .from("games")
-    .select(`*, game_players (*, users (*))`);
-
-  console.log("data", data);
+  const { data: user } = await supabase.auth.getUser();
+  console.log("user", user);
+  const { data: teams, error } = await supabase.from("teams").select();
 
   return (
-    <div className="h-dvh flex flex-col p-4 space-y-8">
-      <h1 className="text-4xl font-extrabold">{team.name}</h1>
-      {data?.map((game) => {
-        const { id, opponent, opponent_score, team_score, game_players, date } =
-          game;
-
-        // Sort players by combined goals + assists descending
-        const sortedPlayers = [...game_players].sort((a, b) => {
-          const aTotal = (a.goals ?? 0) + (a.assists ?? 0);
-          const bTotal = (b.goals ?? 0) + (b.assists ?? 0);
-          return bTotal - aTotal;
-        });
-
-        const gameDate = new Date(date);
-
-        return (
-          <div key={id} className="w-full">
-            <p className="text-sm">{gameDate.toDateString()}</p>
-            <h2 className="text-2xl">
-              Ballers {team_score}-{opponent_score} {opponent}
-            </h2>
-            <table className="w-full table-auto border-collapse border border-gray-300">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="border border-gray-300 px-4 py-2 text-left">
-                    Player
-                  </th>
-                  {/* <th className="border border-gray-300 px-4 py-2 text-center">
-                    App
-                  </th> */}
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    Gls
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    Asts
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2 text-center">
-                    GK
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {sortedPlayers.map(
-                  (stats: {
-                    users: { name: string };
-                    appearance: boolean;
-                    goals: number;
-                    assists: number;
-                    gk: number;
-                    id: number;
-                  }) => {
-                    const { users, goals, assists, gk, id } = stats;
-                    return (
-                      <tr key={id} className="hover:bg-gray-100">
-                        <td className="border border-gray-300 px-4 py-2">
-                          {users?.name}
-                        </td>
-                        {/* <td className="border border-gray-300 px-4 py-2 text-center">
-                          {appearance ? "Yes" : "No"}
-                        </td> */}
-                        <td className="border border-gray-300 px-4 py-2 text-center">
-                          {goals}
-                        </td>
-                        <td className="border border-gray-300 px-4 py-2 text-center">
-                          {assists}
-                        </td>
-                        <td className="border border-gray-300 px-4 py-2 text-center">
-                          {gk}
-                        </td>
-                      </tr>
-                    );
-                  }
-                )}
-              </tbody>
-            </table>
+    <>
+      {!user && (
+        <div className="mx-auto text-center space-y-6 mt-6 min-h-[calc(65vh)] flex flex-col justify-center  rounded-2xl ">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight">
+            Track Every Game,
+            <br />
+            Every Player.
+          </h1>
+          <p className="text-base sm:text-lg text-gray-700 max-w-xl mx-auto w-[calc(100%-4rem)]">
+            Stay on top of your team’s progress, <br /> performance and stats
+            all in one place.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <a href="/signup" className="main-btn inline-block">
+              Create Team
+            </a>
+            <a href="/login" className="main-btn inline-block">
+              Login
+            </a>
           </div>
-        );
-      })}
-    </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mx-auto">
+        {teams?.map((team) => (
+          <Link key={team.id} href={`/${team.id}`}>
+            <div className="group text-gray-900 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col aspect-square overflow-hidden">
+              <div className="flex-1 flex items-center justify-center px-4 pt-4">
+                <div className="w-full h-full bg-gray-100 border border-gray-200 rounded-xl flex items-center justify-center">
+                  <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center text-xl font-bold text-gray-700">
+                    {team.name[0]}
+                  </div>
+                </div>
+              </div>
+              <div className="p-4 flex flex-col items-start gap-2 flex-[0.75]">
+                <div className="text-lg font-semibold">{team.name}</div>
+                <p className="text-sm text-gray-600">
+                  {team.stats || "No stats yet"}
+                </p>
+                <span className="main-btn mt-auto">View Team</span>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </>
   );
 }

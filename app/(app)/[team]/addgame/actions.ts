@@ -20,31 +20,17 @@ export async function createGame(
   const team_id = formData.get("team_id") as string;
   const team_score = formData.get("team_score") as string;
   const opponent_score = formData.get("opponent_score") as string;
-
-  const { error: seasonError, data: seasonData } = await supabase
-    .from("seasons")
-    .select()
-    .eq("team_id", team_id)
-    .order("date", { ascending: false })
-    .limit(1)
-    .single();
-
-  console.log("seasonData", seasonData);
-
-  if (seasonError || !seasonData) {
-    return {
-      message: `Failed to find the season, create one first then add game`,
-    };
-  }
+  const season_id = formData.get("season_id") as string;
 
   const { error, data: gameData } = await supabase
     .from("games")
     .insert({
       team_id,
-      season_id: seasonData.id,
+      season_id,
       opponent: opponantName,
       opponent_score,
       team_score,
+      date: new Date(),
     })
     .select()
     .limit(1)
@@ -84,6 +70,8 @@ export async function addStatsToGame(
   const cookieStore = await cookies();
   const cookieId = cookieStore.get("game_id");
 
+  console.log("cookieId", cookieId);
+
   const { error, data } = await supabase
     .from("game_players")
     .insert({
@@ -93,10 +81,13 @@ export async function addStatsToGame(
       assists,
       goals,
       user_id,
+      date: new Date(),
     })
     .select()
     .limit(1)
     .single();
+
+  console.log("aded game", data, error);
 
   if (error || !data) {
     return {

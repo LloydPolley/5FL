@@ -2,6 +2,7 @@
 
 import { Volleyball } from "lucide-react";
 import { useActionState } from "react";
+import Link from "next/link";
 
 import { signup } from "../actions";
 
@@ -12,7 +13,7 @@ export default function SignUpForm() {
 
   return (
     <form
-      className="w-full max-w-sm p-8 space-y-6 text-left"
+      className="w-full max-w-sm p-8 space-y-6 text-left mx-auto"
       action={formActionSignup}
     >
       <div className="mx-auto size-16 relative text-black">
@@ -50,18 +51,30 @@ export default function SignUpForm() {
         required
       />
 
+      <input
+        id="teamName"
+        type="teamName"
+        name="teamName"
+        placeholder="Team Name"
+        className="input-form"
+        required
+      />
+
       {formStateSignup?.message && (
         <p className="text-red-500 text-center">{formStateSignup.message}</p>
       )}
 
       <div className="flex flex-col gap-3">
-        <button
-          type="submit"
-          className="w-full rounded-lg bg-blue-600 text-white font-semibold py-4 hover:bg-blue-700 transition"
-        >
+        <button type="submit" className="main-btn">
           Create
         </button>
       </div>
+      <Link
+        className="text-center text-gray-800 underline mt-10"
+        href={"/login"}
+      >
+        Already have an account? Log in
+      </Link>
     </form>
   );
 }

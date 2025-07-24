@@ -13,7 +13,7 @@ export default function LoginForm() {
 
   return (
     <form
-      className="w-full max-w-sm p-8 space-y-6 text-left mt-[-50px]"
+      className="w-full max-w-sm p-8 space-y-6 text-left mx-auto mt-[-100px]"
       action={formActionSignup}
     >
       <div className="mx-auto size-16 relative text-black">
@@ -51,7 +51,12 @@ export default function LoginForm() {
           Log in
         </button>
       </div>
-      <Link href={"/signup"}>Sign up</Link>
+      <Link
+        className="text-center text-gray-800 underline mt-10"
+        href={"/signup"}
+      >
+        No Account? Sign up
+      </Link>
     </form>
   );
 }
