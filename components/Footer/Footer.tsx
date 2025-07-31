@@ -20,7 +20,7 @@ export default async function Footer() {
         );
       })}
       <form action={signOutAction}>
-        <button type="submit">Sign out</button>
+        <input type="submit" value="Sign out" />
       </form>
     </footer>
   );

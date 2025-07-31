@@ -1,22 +1,13 @@
 import {
   Settings,
   Plus,
-  LogOut,
-  ChartNoAxesColumn,
+  ScanFace,
   Volleyball,
   PanelsTopLeft,
 } from "lucide-react";
 import Link from "next/link";
 
 import { createClient } from "@/utils/supabase/server";
-import { signOutAction } from "@/app/(auth)/auth/signout/action";
-
-const NAV_LINKS = [
-  { title: "Overview", component: <PanelsTopLeft />, url: "/" },
-  { title: "Games", component: <ChartNoAxesColumn />, url: "/games" },
-  { title: "Add Game", component: <Plus />, url: "/addgame" },
-  { title: "Settings", component: <Settings />, url: "/settings" },
-];
 
 export default async function Nav() {
   const supabase = await createClient();
@@ -32,23 +23,26 @@ export default async function Nav() {
     .single();
 
   return (
-    <nav className="flex w-[calc(100%-1rem)] z-50 m-auto rounded-3xl px-5 py-3 justify-between bg-gray-100 bg-opacity-80 backdrop-blur-sm text-gray-800 sticky top-2 border border-gray-200">
+    <nav className="flex z-50 rounded-2xl px-5 py-3 justify-between bg-white bg-opacity-80 backdrop-blur-sm text-gray-800 sticky top-2 border border-gray-200 w-full">
       <Link href={"/"}>
         <Volleyball />
       </Link>
-      {user && (
-        <div className="flex w-[50%] justify-between">
-          {NAV_LINKS.map((item) => {
-            let url = item.url;
-            url = `/${teamData?.id}/${item.url}`;
-
-            return (
-              <Link key={item.title} href={url}>
-                {item.component}
-              </Link>
-            );
-          })}
+      {user ? (
+        <div className="flex justify-between gap-6">
+          <Link href={`/team/${teamData?.id}`}>
+            <PanelsTopLeft />
+          </Link>
+          <Link href={`/create/game`}>
+            <Plus />
+          </Link>
+          <Link href={`/settings`}>
+            <Settings />
+          </Link>
         </div>
+      ) : (
+        <Link href={`/login`}>
+          <ScanFace />
+        </Link>
       )}
     </nav>
   );

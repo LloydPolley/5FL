@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "@/styles/forms.scss";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  /* background: var(--background); */
+  background-color: #f3f5f7;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.widget {
+  @apply bg-white border border-gray-200 rounded-2xl;
+}
+
+.wrapper {
+  @apply max-w-7xl mx-auto  mt-4;
+}
+
+h1 {
+  font-family: "Urbanist", Courier, monospace;
+}
+
+.main-btn {
+  background: linear-gradient(to right, #151516, #2e2b33);
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 10px;
+  display: inline-block;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+}
+
+.black-btn {
+  @apply bg-black text-white py-4 px-6 rounded-xl hover:bg-gray-800 transition text-center block;
+}
+
+.main-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.secondary-btn {
+  background: linear-gradient(to right, #151516, #2e2b33);
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 10px;
+  display: inline-block;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+}
+
+.secondary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.h1 {
+  @apply text-4xl font-bold;
+}
