@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { ArrowDownRight, Volleyball } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import TableHeader from "@/components/TableHeader/TableHeader";
 
 export default async function Games() {
   const supabase = await createClient();
@@ -22,21 +24,23 @@ export default async function Games() {
 
   return (
     <div className="wrapper">
-      <h1 className="h1">Edit Game</h1>
+      <TableHeader season="" team="Edit Game" />
       <div className="space-y-4">
         {games?.map((game) => (
-          <Link
-            key={game.id}
-            href={`/create/game?game_id=${game.id}`}
-            className="flex px-4 py-5 rounded-full widget hover:text-black transition-all"
-          >
-            <Volleyball className="my-auto mr-8 size-8" />
-            <div className="flex flex-col my-auto">
-              <p className="text-xs">{game.date}</p>
-              <p className="font-bold text-black">{game.opponent}</p>
-            </div>
-            <ArrowDownRight className="ml-auto my-auto size-8" />
-          </Link>
+          <Card key={game.id}>
+            <Link
+              key={game.id}
+              href={`/create/game?game_id=${game.id}`}
+              className="flex px-4 py-5"
+            >
+              <Volleyball className="my-auto mr-8 size-8" />
+              <div className="flex flex-col my-auto">
+                <p className="text-xs">{game.date}</p>
+                <p className="font-bold">{game.opponent}</p>
+              </div>
+              <ArrowDownRight className="ml-auto my-auto size-8" />
+            </Link>
+          </Card>
         ))}
       </div>
     </div>

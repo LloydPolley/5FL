@@ -1,15 +1,45 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
-import { useActionState } from "react";
-
 import { createGame } from "@/actions/games/createGame";
 import ScoreWidget from "@components/ScoreWidget/ScoreWidget";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  FormControl,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Card, CardHeader } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import z from "zod";
 
-const initState = {
-  message: "",
-  gameId: "",
-};
+const loginSchema = z.object({
+  season: z.string().min(1),
+  opponentName: z.string().min(1),
+  teamScore: z.number(),
+  opponentScore: z.number(),
+  date: z.date().nullable(),
+});
 
 export default function CreateGameForm({
   teamId,
@@ -20,80 +50,161 @@ export default function CreateGameForm({
   result: any;
   seasons: { id: string; name: string }[];
 }) {
-  const [opponentName, setOpponentName] = useState(result?.opponent || "");
-  const [teamScore, setTeamScore] = useState(result?.team_score || 0);
-  const [opponentScore, setOpponentScore] = useState(
-    result?.opponent_score || 0
-  );
-  const [selectedSeason, setSelectedSeason] = useState(
-    result?.season_id || seasons?.[0]?.id
-  );
+  const form = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      season: result?.season_id?.toString() || "",
+      opponentName: result?.opponent || "",
+      teamScore: result?.team_score || 0,
+      opponentScore: result?.opponent_score || 0,
+      date: result?.date ? new Date(result.date) : null,
+    },
+  });
 
-  const [formStateCreate, formActionCreate] = useActionState(
-    createGame,
-    initState
-  );
+  const onSubmit = (data: z.infer<typeof loginSchema>) => {
+    const { season, opponentName, teamScore, opponentScore, date } = data;
 
-  console.log("result", result);
+    console.log("date", date);
+
+    createGame({
+      season_id: season,
+      opponent_name: opponentName,
+      team_score: teamScore,
+      opponent_score: opponentScore,
+      team_id: teamId,
+      gameId: result?.id,
+      date: date ? format(date, "yyyy-MM-dd") : "",
+    });
+  };
 
   return (
-    <form className="form" action={formActionCreate}>
-      <h1 className="text-gray-800 font-bold text-4xl mb-6">Add Game</h1>
+    <Card className="p-8 w-full max-w-lg min-w-[400px] sm:min-w-0 mx-auto space-y-6">
+      <CardHeader className="p-0 mb-4">
+        <h1 className="text-2xl font-bold text-center">Add Game</h1>
+      </CardHeader>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-6"
+        >
+          <FormField
+            control={form.control}
+            name="season"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Season</FormLabel>
+                <FormControl>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select a season" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {seasons.map((season) => (
+                        <SelectItem
+                          key={season.id}
+                          value={season.id.toString()}
+                        >
+                          {season.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-      {formStateCreate?.message && (
-        <p className="text-red-500 text-center">{formStateCreate.message}</p>
-      )}
+          <FormField
+            control={form.control}
+            name="date"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Date</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {field.value
+                        ? format(field.value, "dd/MM/yyyy")
+                        : "Pick a date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value ?? undefined}
+                      onSelect={field.onChange}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-      <select
-        name="season_id"
-        value={selectedSeason}
-        onChange={(e) => setSelectedSeason(e.target.value)}
-        className="input-text"
-        required
-      >
-        <option value="" disabled>
-          Select Season
-        </option>
-        {seasons?.map((season) => (
-          <option key={season.id} value={season.id}>
-            {season.name}
-          </option>
-        ))}
-      </select>
+          <FormField
+            control={form.control}
+            name="opponentName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Opponent Name</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Opponent Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-      <input
-        className="input-text"
-        placeholder="Opponent Name"
-        type="text"
-        name="opponentName"
-        value={opponentName}
-        onChange={(e) => setOpponentName(e.target.value)}
-        required
-      />
+          <FormField
+            control={form.control}
+            name="teamScore"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <ScoreWidget
+                    text="Fulham Ballers"
+                    name={field.name}
+                    score={Number(field.value) || 0}
+                    setScore={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-      <input hidden type="text" name="game_id" defaultValue={result?.id} />
-      <input hidden type="text" name="team_id" defaultValue={teamId} />
-      <input
-        hidden
-        type="text"
-        name="season_id"
-        defaultValue={selectedSeason}
-      />
+          <FormField
+            control={form.control}
+            name="opponentScore"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <ScoreWidget
+                    text={form.getValues("opponentName") || "Opponent"}
+                    name={field.name}
+                    score={Number(field.value) || 0}
+                    setScore={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-      <ScoreWidget
-        text="Fulham Ballers"
-        name="team_score"
-        score={teamScore}
-        setScore={setTeamScore}
-      />
-      <ScoreWidget
-        text={opponentName || "Opponent"}
-        name="opponent_score"
-        score={opponentScore}
-        setScore={setOpponentScore}
-      />
-
-      <input type="submit" value="AddGame" />
-    </form>
+          <Button type="submit" className="w-full">
+            Add Game
+          </Button>
+        </form>
+      </Form>
+    </Card>
   );
 }

@@ -1,9 +1,24 @@
 "use client";
 
-import { X, Plus } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useActionState } from "react";
+import { Plus, X } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { createTeam } from "@/actions/teams/createTeam";
+
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormControl,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 type PlayerType = {
   name: string;
@@ -11,9 +26,11 @@ type PlayerType = {
   team_id?: number;
 };
 
-const initState = {
-  message: "",
-};
+const schema = z.object({
+  playerName: z.string().optional(),
+});
+
+type FormValues = z.infer<typeof schema>;
 
 export default function CreateTeamForm({
   teamId,
@@ -24,19 +41,20 @@ export default function CreateTeamForm({
 }) {
   const [existingPlayers, setExistingPlayers] = useState<PlayerType[]>([]);
   const [newPlayers, setNewPlayers] = useState<string[]>([]);
-  const [player, setPlayer] = useState<string>("");
 
-  const [formStateTeam, formActionCreate] = useActionState(
-    createTeam,
-    initState
-  );
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      playerName: "",
+    },
+  });
 
   useEffect(() => {
     if (users?.length) setExistingPlayers(users);
   }, [users]);
 
   const addPlayer = () => {
-    const trimmed = player.trim();
+    const trimmed = form.getValues("playerName")?.trim();
     if (!trimmed) return;
 
     const nameTaken =
@@ -46,79 +64,89 @@ export default function CreateTeamForm({
     if (nameTaken) return;
 
     setNewPlayers((prev) => [...prev, trimmed]);
-    setPlayer("");
+    form.setValue("playerName", "");
   };
 
   const removePlayer = (name: string) => {
     setNewPlayers((prev) => prev.filter((p) => p !== name));
   };
 
+  const onSubmit = (data: FormValues) => {
+    createTeam({
+      teamId,
+      players: newPlayers,
+    });
+  };
+
   return (
-    <form className="form" action={formActionCreate}>
-      <h1 className="h1">Create team</h1>
+    <Card className="p-8 w-full max-w-lg min-w-[400px] sm:min-w-0 mx-auto space-y-6">
+      <CardHeader className="p-0 mb-4">
+        <h1 className="text-2xl font-bold text-center">Create Team</h1>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="playerName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Add player name</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Enter player name"
+                        {...field}
+                        className="flex-1"
+                      />
+                      <Button
+                        type="button"
+                        onClick={addPlayer}
+                        disabled={!field.value?.trim()}
+                      >
+                        <Plus className="w-4 h-4 mr-1" />
+                        Add
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-      {formStateTeam?.message && (
-        <p className="text-red-500 text-center mb-4">{formStateTeam.message}</p>
-      )}
+            <div className="space-y-3">
+              {existingPlayers.map((p, i) => (
+                <div
+                  key={`existing-${p.name}-${i}`}
+                  className="flex justify-between items-center bg-gray-100 text-gray-900 rounded-xl py-3 px-5"
+                >
+                  <p className="font-medium">{p.name}</p>
+                </div>
+              ))}
 
-      <div className="flex items-center gap-2">
-        <input
-          className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
-          placeholder="Add player name"
-          type="text"
-          value={player}
-          onChange={(e) => setPlayer(e.target.value)}
-        />
-        <button
-          type="button"
-          onClick={addPlayer}
-          disabled={!player.trim()}
-          className={`flex items-center gap-1 px-4 py-3 rounded-lg font-semibold ${
-            player.trim()
-              ? "bg-black text-white hover:bg-gray-800"
-              : "bg-gray-200 text-gray-500 cursor-not-allowed"
-          }`}
-        >
-          <Plus size={18} />
-          Add
-        </button>
-      </div>
+              {newPlayers.map((name, i) => (
+                <div
+                  key={`new-${name}-${i}`}
+                  className="flex justify-between items-center bg-gray-100 text-gray-900 rounded-xl py-3 px-5 hover:shadow-sm transition"
+                >
+                  <p className="font-medium">{name}</p>
+                  <button
+                    type="button"
+                    onClick={() => removePlayer(name)}
+                    className="text-gray-500 hover:text-red-500 transition"
+                  >
+                    <X />
+                  </button>
+                </div>
+              ))}
+            </div>
 
-      <div className="flex flex-col gap-4 mt-6">
-        {existingPlayers.map((p, index) => (
-          <div
-            key={`existing-${p.name}-${index}`}
-            className="flex justify-between items-center bg-gray-100 text-gray-900 rounded-xl py-3 px-5"
-          >
-            <p className="font-medium">{p.name}</p>
-          </div>
-        ))}
-
-        {newPlayers.map((name, index) => (
-          <div
-            key={`new-${name}-${index}`}
-            className="flex justify-between items-center bg-gray-100 text-gray-900 rounded-xl py-3 px-5 hover:shadow-sm transition"
-          >
-            <p className="font-medium">{name}</p>
-            <button
-              type="button"
-              onClick={() => removePlayer(name)}
-              className="text-gray-500 hover:text-red-500 transition"
-            >
-              <X />
-            </button>
-          </div>
-        ))}
-      </div>
-
-      <input type="hidden" name="teamId" defaultValue={teamId} />
-      <input
-        type="hidden"
-        name="newPlayers"
-        value={JSON.stringify(newPlayers)}
-      />
-
-      <input className="black-btn" type="submit" value="Submit Team" />
-    </form>
+            <Button type="submit" className="w-full">
+              Submit Team
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }

@@ -4,16 +4,16 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
 
-export async function signup(
-  currentState: { message: string },
-  formData: FormData
-): Promise<{ message: string }> {
+export async function signup(formData: {
+  email: string;
+  password: string;
+  name: string;
+  teamName: string;
+}): Promise<{ message: string }> {
+  console.log("formData", formData);
   const supabase = await createClient();
 
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  const name = formData.get("name") as string;
-  const teamName = formData.get("teamName") as string;
+  const { email, password, name, teamName } = formData;
 
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,

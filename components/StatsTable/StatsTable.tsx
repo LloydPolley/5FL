@@ -1,7 +1,18 @@
+import { Card } from "../ui/card";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+
 type Header = {
   key: string;
   label: string;
-  align: string;
+  align?: string;
 };
 
 type Player = {
@@ -23,6 +34,7 @@ type StatsTableCardProps = {
   opponent_score?: number;
   opponent?: string;
 };
+
 export default function StatsTableCard({
   headers,
   players,
@@ -33,12 +45,10 @@ export default function StatsTableCard({
 }: StatsTableCardProps) {
   const columnWidthClass = `w-[${100 / headers.length}%]`;
 
-  console.log("players", players);
-
   return (
-    <div className="bg-white overflow-hidden rounded-xl border border-zinc-200">
+    <Card>
       {team_score && (
-        <div className="bg-zinc-900 text-white px-4 py-4">
+        <div className="px-4 py-4">
           <p className="text-xs text-center text-zinc-400 mb-1 tracking-wide">
             {new Date(date || "").toDateString()}
           </p>
@@ -52,50 +62,39 @@ export default function StatsTableCard({
         </div>
       )}
 
-      <div className="overflow-x-auto">
-        <table className="table-fixed w-full text-sm text-zinc-800">
-          <thead className="bg-zinc-100 text-xs uppercase text-zinc-500 border-b border-zinc-200">
-            <tr>
-              {headers.map(({ key, label, align = "left" }) => (
-                <th
-                  key={key}
-                  className={`${columnWidthClass} py-3 px-2 text-center font-semibold`}
-                >
-                  {label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {players.map((player, idx) => (
-              <tr
-                key={player.id || idx}
-                className="hover:bg-zinc-50 border-b border-zinc-100 transition-colors"
-              >
-                {headers.map(({ key }) => {
-                  const content =
-                    player[key] !== undefined
-                      ? player[key]
-                      : player?.users?.[key] || "-";
-
-                  const isPlayerName = key === "player";
-                  const alignment = isPlayerName ? "text-left" : "text-center";
-                  const font = isPlayerName ? "font-medium text-zinc-900" : "";
-
-                  return (
-                    <td
-                      key={key}
-                      className={`${columnWidthClass} py-3 px-2 ${alignment} ${font}`}
-                    >
-                      {content}
-                    </td>
-                  );
-                })}
-              </tr>
+      <Table className="text-center">
+        <TableCaption>Player stats</TableCaption>
+        <TableHeader>
+          <TableRow className="text-center">
+            {headers.map(({ key, label }) => (
+              <TableHead className="text-center" key={key}>
+                {label}
+              </TableHead>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {players.map((player, idx) => (
+            <TableRow key={player.id || idx}>
+              {headers.map(({ key }) => {
+                const content =
+                  player[key] !== undefined
+                    ? player[key]
+                    : player?.users?.[key] || "-";
+
+                const isPlayerName = key === "player";
+                const alignment = isPlayerName ? "text-left" : "text-center";
+
+                return (
+                  <TableCell className={`${alignment}`} key={key}>
+                    {content}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </Card>
   );
 }

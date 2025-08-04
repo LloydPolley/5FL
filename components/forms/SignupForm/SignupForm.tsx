@@ -5,76 +5,115 @@ import { useActionState } from "react";
 import Link from "next/link";
 
 import { signup } from "@/actions/auth/signup";
-
-const initState = { message: "" };
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { Card, CardHeader } from "@/components/ui/card";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signupSchema } from "./schema";
+import z from "zod";
 
 export default function SignUpForm() {
-  const [formStateSignup, formActionSignup] = useActionState(signup, initState);
+  const form = useForm({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      name: "",
+      teamName: "",
+    },
+  });
 
+  const onSubmit = async (data: z.infer<typeof signupSchema>) => {
+    console.log("data", data);
+    await signup(data);
+  };
   return (
-    <form
-      className="w-full max-w-sm p-8 space-y-6 text-left mx-auto"
-      action={formActionSignup}
-    >
-      <div className="mx-auto size-16 relative text-black">
-        <Volleyball className="size-16" />
+    <Card className="p-8 w-full max-w-lg min-w-[400px] sm:min-w-0 mx-auto space-y-6">
+      <CardHeader className="p-0 mb-4">
+        <h1 className="text-2xl font-bold text-center">Create an Account</h1>
+      </CardHeader>
+
+      <Form {...form}>
+        <form
+          className="flex flex-col gap-6"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Email Address" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="Password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="First Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="teamName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Team Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Team Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button className="w-full" type="submit">
+            Sign Up
+          </Button>
+        </form>
+      </Form>
+
+      <div className="text-center mt-4">
+        <Link href="/login">
+          <Button variant="link">Already have an account? Log in</Button>
+        </Link>
       </div>
-
-      <h1 className="text-3xl font-extrabold text-gray-800 text-center">
-        Create an Account
-      </h1>
-
-      <input
-        id="email"
-        type="email"
-        name="email"
-        placeholder="Email Address"
-        className="input-form"
-        required
-      />
-
-      <input
-        id="password"
-        type="password"
-        name="password"
-        placeholder="Password"
-        className="input-form"
-        required
-      />
-
-      <input
-        id="name"
-        type="name"
-        name="name"
-        placeholder="First Name"
-        className="input-form"
-        required
-      />
-
-      <input
-        id="teamName"
-        type="teamName"
-        name="teamName"
-        placeholder="Team Name"
-        className="input-form"
-        required
-      />
-
-      {formStateSignup?.message && (
-        <p className="text-red-500 text-center">{formStateSignup.message}</p>
-      )}
-
-      <div className="flex flex-col gap-3">
-        <button type="submit" className="main-btn">
-          Create
-        </button>
-      </div>
-      <Link
-        className="text-center text-gray-800 underline mt-10"
-        href={"/login"}
-      >
-        Already have an account? Log in
-      </Link>
-    </form>
+    </Card>
   );
 }

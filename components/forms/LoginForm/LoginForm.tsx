@@ -1,60 +1,90 @@
 "use client";
 
 import { Volleyball } from "lucide-react";
-import Link from "next/link";
 import { useActionState } from "react";
+import Link from "next/link";
 
 import { login } from "@/actions/auth/login";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { Card, CardHeader } from "@/components/ui/card";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "./schema";
+import z from "zod";
 
-const initState = { message: "" };
+export default function SignUpForm() {
+  const form = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-export default function LoginForm() {
-  const [formStateSignup, formActionSignup] = useActionState(login, initState);
+  const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    console.log("data", data);
+    await login(data);
+  };
 
   return (
-    <form
-      className="w-full max-w-sm p-8 space-y-6 text-left mx-auto mt-[-100px]"
-      action={formActionSignup}
-    >
-      <div className="mx-auto size-16 relative text-black">
-        <Volleyball className="size-16" />
+    <Card className="p-8 w-full max-w-lg min-w-[400px] sm:min-w-0 mx-auto space-y-6">
+      <CardHeader className="p-0 mb-4">
+        <h1 className="text-2xl font-bold text-center">Sign in</h1>
+      </CardHeader>
+
+      <Form {...form}>
+        <form
+          className="flex flex-col gap-6"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Email Address" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="Password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button className="w-full" variant="default" type="submit">
+            Sign In
+          </Button>
+        </form>
+      </Form>
+
+      <div className="text-center mt-4">
+        <Link href="/signup">
+          <Button variant="link">Don't have an account? Sign up</Button>
+        </Link>
       </div>
-
-      <h1 className="text-3xl font-extrabold text-gray-800 text-center">
-        Sign in
-      </h1>
-
-      <input
-        id="email"
-        type="email"
-        name="email"
-        placeholder="Email Address"
-        className="input-form"
-        required
-      />
-
-      <input
-        id="password"
-        type="text"
-        name="password"
-        placeholder="Password"
-        className="input-form"
-        required
-      />
-
-      {formStateSignup?.message && (
-        <p className="text-red-500 text-center">{formStateSignup.message}</p>
-      )}
-
-      <div className="flex flex-col gap-3">
-        <input type="submit" value="Log in" />
-      </div>
-      <Link
-        className="text-center text-gray-800 underline mt-10"
-        href={"/signup"}
-      >
-        No Account? Sign up
-      </Link>
-    </form>
+    </Card>
   );
 }

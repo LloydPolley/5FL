@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import CreateGameForm from "@/components/forms/CreateGameForm/CreateGameForm";
 import RadioButtons from "@/components/RadioButtons/RadioButtons";
+import { Button } from "@/components/ui/button";
 
 export default async function Games({
   searchParams,
@@ -9,8 +10,8 @@ export default async function Games({
   searchParams: { game_id: string };
 }) {
   const supabase = await createClient();
-  let game = null;
   const { data } = await supabase.auth.getUser();
+  const { game_id } = await searchParams;
 
   const { data: userData } = await supabase
     .from("users")
@@ -25,13 +26,14 @@ export default async function Games({
     .select("id, name")
     .eq("team_id", team_id);
 
-  if (searchParams.game_id) {
+  let game = null;
+  if (game_id) {
+    console.log("game_id", game_id);
     const { data: fetchedGame } = await supabase
       .from("games")
       .select("*")
-      .eq("id", searchParams.game_id)
+      .eq("id", game_id)
       .single();
-
     game = fetchedGame;
   }
 
@@ -54,9 +56,9 @@ export default async function Games({
       ) : (
         <p className="text-gray-500">No seasons available.</p>
       )}
-      <Link className="text-center" href="/edit">
-        Edit Game
-      </Link>
+      <Button className="mt-6 w-full" asChild variant="ghost">
+        <Link href="/edit">Edit Game</Link>
+      </Button>
     </div>
   );
 }

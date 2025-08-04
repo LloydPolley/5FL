@@ -3,18 +3,17 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
-export async function addGameStats(
-  currentState: { message?: string; success?: boolean },
-  formData: FormData
-): Promise<{ message: string; success?: false } | { success: true }> {
+export async function addGameStats(formData: {
+  appearance: boolean;
+  gk: number;
+  assists: number;
+  goals: number;
+  game_id: string;
+  user_id: string;
+}): Promise<{ message: string; success?: false } | { success: true }> {
   const supabase = await createClient();
 
-  const user_id = formData.get("user_id") as string;
-  const game_id = formData.get("game_id") as string;
-  const goals = formData.get("goals") as string;
-  const assists = formData.get("assists") as string;
-  const gk = formData.get("gk") as string;
-  const appearance = formData.get("appearance") === "true";
+  const { appearance, game_id, gk, assists, goals, user_id } = formData;
 
   const { error, data } = await supabase
     .from("game_players")

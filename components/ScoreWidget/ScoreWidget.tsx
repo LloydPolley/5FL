@@ -1,6 +1,7 @@
 "use client";
 
 import { Minus, Plus } from "lucide-react";
+import { Input } from "../ui/input";
 
 export default function ScoreWidget({
   text,
@@ -38,13 +39,13 @@ export default function ScoreWidget({
     <div className="flex justify-between items-center">
       <p className="w-24 text-md">{text}</p>
 
-      <div className="border rounded-md flex p-4 font-bold bg-white">
-        <button type="button" onClick={decrement} className="">
-          <Minus className="w-4 h-4" />
+      <div className="border rounded-md flex p-4 font-bold w-[50%]">
+        <button type="button" onClick={decrement} className="w-1/2 text-center">
+          <Minus className="w-4 h-4 m-auto" />
         </button>
 
-        <input
-          className="w-20 text-center"
+        <Input
+          className="text-center border-none p-0"
           type="number"
           name={name}
           value={score}
@@ -52,10 +53,11 @@ export default function ScoreWidget({
           max={max}
           step={step}
           onChange={handleChange}
+          disabled
         />
 
-        <button type="button" onClick={increment} className="">
-          <Plus className="w-4 h-4" />
+        <button type="button" onClick={increment} className="w-1/2 text-center">
+          <Plus className="w-4 h-4 m-auto" />
         </button>
       </div>
     </div>

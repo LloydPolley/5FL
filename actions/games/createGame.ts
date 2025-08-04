@@ -11,18 +11,24 @@ export type FormState = {
   message?: string;
 };
 
-export async function createGame(
-  currentState: FormState,
-  formData: FormData
-): Promise<FormState> {
+export async function createGame({
+  season_id,
+  opponent_name,
+  team_score,
+  opponent_score,
+  team_id,
+  gameId,
+  date,
+}: {
+  season_id: string;
+  opponent_name: string;
+  team_score: number;
+  opponent_score: number;
+  team_id: string;
+  gameId?: string;
+  date: string;
+}): Promise<FormState> {
   const supabase = await createClient();
-
-  const opponentName = formData.get("opponentName") as string;
-  const team_id = formData.get("team_id") as string;
-  const team_score = Number(formData.get("team_score"));
-  const opponent_score = Number(formData.get("opponent_score"));
-  const season_id = formData.get("season_id") as string;
-  const gameId = formData.get("game_id") as string;
 
   let response;
 
@@ -30,23 +36,25 @@ export async function createGame(
     response = await supabase
       .from("games")
       .update({
-        opponent: opponentName,
+        opponent: opponent_name,
         opponent_score,
         team_score,
+        date,
       })
       .eq("id", gameId)
       .select()
       .single();
   } else {
+    console.log("else");
     response = await supabase
       .from("games")
       .insert({
         team_id,
         season_id,
-        opponent: opponentName,
+        opponent: opponent_name,
         opponent_score,
         team_score,
-        date: new Date(),
+        date,
       })
       .select()
       .single();
@@ -55,13 +63,14 @@ export async function createGame(
   const { error, data: gameData } = response;
 
   if (error || !gameData) {
+    console.log("error", error);
     return {
       message: gameId ? "Failed to update game" : "Failed to create game",
     };
   }
 
   if (!gameId) {
-    await addAllPlayers({ team_id, season_id, game_id: gameData.id });
+    await addAllPlayers({ team_id, season_id, game_id: gameData.id, date });
   }
 
   // revalidatePath(`/${team_id}/games`);
@@ -72,10 +81,12 @@ const addAllPlayers = async ({
   team_id,
   season_id,
   game_id,
+  date,
 }: {
   team_id: string;
   season_id: string;
   game_id: string;
+  date: string;
 }) => {
   const supabase = await createClient();
 
@@ -100,7 +111,7 @@ const addAllPlayers = async ({
         assists: 0,
         goals: 0,
         user_id: player.id,
-        date: new Date(),
+        date,
       });
       return error;
     })

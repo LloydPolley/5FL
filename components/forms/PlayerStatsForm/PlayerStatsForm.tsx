@@ -1,16 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useActionState } from "react";
-import ReactSwitch from "react-switch";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 import { addGameStats } from "@/actions/games/addGameStats";
 import ScoreWidget from "@components/ScoreWidget/ScoreWidget";
 
-const initState = {
-  message: "",
-  success: false,
-};
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+
+const formSchema = z.object({
+  appearance: z.boolean(),
+  goals: z.number().min(0),
+  assists: z.number().min(0),
+  gk: z.number().min(0).max(8),
+});
 
 export default function PlayerStatsForm({
   player,
@@ -26,6 +33,7 @@ export default function PlayerStatsForm({
   };
   gameId: string;
 }) {
+  const [complete, setComplete] = useState(false);
   const {
     name,
     user_id,
@@ -35,75 +43,74 @@ export default function PlayerStatsForm({
     gk: gkDefault,
   } = player;
 
-  const [appearance, setAppearance] = useState(appearanceDefault || false);
-  const [goals, setGoals] = useState<number>(goalsDefault || 0);
-  const [assists, setAssists] = useState<number>(assistsDefault || 0);
-  const [gk, setGK] = useState<number>(gkDefault || 0);
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      appearance: appearanceDefault,
+      goals: goalsDefault,
+      assists: assistsDefault,
+      gk: gkDefault,
+    },
+  });
 
-  const [formState, formAction] = useActionState(addGameStats, initState);
+  const { watch, setValue, register, handleSubmit } = form;
+  const appearance = watch("appearance");
 
-  if (formState?.success) {
-    return <p>Added {name}</p>;
-  }
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    console.log("data", data);
+    const hasAdded = await addGameStats({ ...data, game_id: gameId, user_id });
+    if (hasAdded.success) {
+      setComplete(true);
+    }
+  };
 
   return (
-    <form
-      action={formAction}
-      className={`form ${appearance ? "h-auto" : "h-[100px]"}`}
-    >
-      <input name="game_id" defaultValue={gameId} hidden />
-      <input name="user_id" defaultValue={user_id} hidden />
-      <input
-        type="hidden"
-        name="appearance"
-        value={appearance ? "true" : "false"}
-      />
-
-      <div className="flex justify-between mb-6">
-        <p className="font-medium text-3xl">
-          {name} - {user_id}
-        </p>
-        <ReactSwitch
-          checked={appearance}
-          onChange={() => setAppearance(!appearance)}
-        />
-      </div>
-
-      {appearance && (
-        <>
-          {formState?.success && <p>Added</p>}
-
-          <ScoreWidget
-            text="Goals"
-            name="goals"
-            score={goals}
-            setScore={setGoals}
-            min={0}
-            step={1}
+    <Card className="mb-6">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <CardHeader className="flex-row justify-between items-center">
+          <CardTitle className="text-2xl font-medium">
+            {name}: <span className="text-sm">{user_id}</span>
+          </CardTitle>
+          <Switch
+            checked={appearance}
+            onCheckedChange={(val) => setValue("appearance", val)}
           />
+        </CardHeader>
 
-          <ScoreWidget
-            text="Assists"
-            name="assists"
-            score={assists}
-            setScore={setAssists}
-            min={0}
-            step={1}
-          />
+        {appearance && !complete && (
+          <CardContent className="space-y-4">
+            <ScoreWidget
+              text="Goals"
+              name="goals"
+              score={watch("goals")}
+              setScore={(val) => setValue("goals", val)}
+              min={0}
+              step={1}
+            />
 
-          <ScoreWidget
-            text="GK"
-            name="gk"
-            score={gk}
-            setScore={setGK}
-            min={0}
-            step={1}
-            max={8}
-          />
+            <ScoreWidget
+              text="Assists"
+              name="assists"
+              score={watch("assists")}
+              setScore={(val) => setValue("assists", val)}
+              min={0}
+              step={1}
+            />
 
-          <input type="submit" value="Save" />
-        </>
-      )}
-    </form>
+            <ScoreWidget
+              text="GK"
+              name="gk"
+              score={watch("gk")}
+              setScore={(val) => setValue("gk", val)}
+              min={0}
+              step={1}
+              max={8}
+            />
+
+            <Button type="submit">Save</Button>
+          </CardContent>
+        )}
+      </form>
+    </Card>
   );
 }

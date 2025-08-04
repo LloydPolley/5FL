@@ -23,7 +23,7 @@ export default async function Nav() {
     .single();
 
   return (
-    <nav className="flex z-50 rounded-2xl px-5 py-3 justify-between bg-white bg-opacity-80 backdrop-blur-sm text-gray-800 sticky top-2 border border-gray-200 w-full">
+    <nav className="flex z-50 rounded-2xl px-5 py-3 justify-between bg-card bg-opacity-80 backdrop-blur-sm sticky top-2 w-full mx-auto">
       <Link href={"/"}>
         <Volleyball />
       </Link>

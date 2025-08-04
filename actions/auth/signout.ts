@@ -5,12 +5,9 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
 
-export async function login(formData: { email: string; password: string }) {
+export async function signout() {
   const supabase = await createClient();
-
-  const { email, password } = formData;
-
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { error } = await supabase.auth.signOut();
 
   if (error) {
     console.log("error", error);
