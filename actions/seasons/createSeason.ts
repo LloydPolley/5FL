@@ -40,5 +40,5 @@ export async function createSeason({
   }
 
   revalidatePath("/");
-  redirect("/");
+  redirect("/create/game");
 }

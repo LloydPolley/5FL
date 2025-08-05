@@ -1,17 +1,9 @@
 import StatsTable from "@/components/StatsTable/StatsTable";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import TableHeader from "@/components/TableHeader/TableHeader";
-import { Button } from "@/components/ui/button";
-import SelectWrapper from "@/components/SelectWrapper/SelectWrapper";
 import { Separator } from "@/components/ui/separator";
+import { ChartLineInteractive } from "@/components/Charts/LineChart";
 
 const headers = [
   { key: "name", label: "Player", align: "left" },
@@ -39,8 +31,6 @@ export default async function Home({
     .eq("teams.id", team_id)
     .order("date", { ascending: true });
 
-  console.log("seasons", seasons);
-
   const activeSeason = season_id
     ? seasons?.find((season) => season.id === Number(season_id))
     : seasons?.[0];
@@ -51,10 +41,18 @@ export default async function Home({
       p_season_id: activeSeason?.id.toString(),
     }
   );
+  const { data: weeklyData, error: weeklyError } = await supabase.rpc(
+    "get_weekly_points_by_season2",
+    {
+      p_season_id: activeSeason?.id.toString(),
+    }
+  );
+
+  console.log("weeklyData", weeklyData);
 
   return (
     <div className="wrapper">
-      <div className="flex flex-row">
+      <div className="flex flex-row  mx-auto justify-center">
         {seasons?.map((season) => (
           <div key={season.id} className="flex flex-row text-sm">
             <Link
@@ -70,19 +68,19 @@ export default async function Home({
       <TableHeader
         season={activeSeason?.name}
         team={activeSeason?.teams?.name}
+        team_id={team_id}
+        activeSeason={activeSeason}
       />
       <div className="">
         {activeSeason && !playerError ? (
-          <StatsTable headers={headers} players={playerData} />
+          <div className="flex flex-col gap-6 lg:w-[80%] mx-auto">
+            <StatsTable headers={headers} players={playerData} />
+            <ChartLineInteractive data={weeklyData} />
+          </div>
         ) : (
           "Need Team Data"
         )}
       </div>
-      <Button className="mt-6 w-full" asChild variant="default">
-        <Link href={`/team/${team_id}/games?season_id=${activeSeason?.id}`}>
-          See All Games
-        </Link>
-      </Button>
     </div>
   );
 }

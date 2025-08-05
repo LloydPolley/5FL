@@ -23,10 +23,10 @@ export default async function Home() {
   return (
     <div className="wrapper">
       <Hero user={user} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 justify-start">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-start">
         {teams?.map((team) => (
           <Link key={team.id} href={`/team/${team.id}`}>
-            <Card className="w-[80%] md:w-auto mx-auto min-h-96 flex flex-col justify-between bg-card">
+            <Card className="w-[80%] md:w-auto mx-auto min-h-48 flex flex-col justify-between bg-card">
               <CardHeader>
                 <CardDescription>Team</CardDescription>
               </CardHeader>

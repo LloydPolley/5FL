@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
-
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import PlayerStatsForm from "@/components/forms/PlayerStatsForm/PlayerStatsForm";
 
 export default async function Games({
@@ -27,6 +28,9 @@ export default async function Games({
         const { name } = player;
         return <PlayerStatsForm key={name} gameId={game_id} player={player} />;
       })}
+      <Button asChild variant="outline">
+        <Link href="/create/game">Finish</Link>
+      </Button>
     </div>
   );
 }

@@ -79,7 +79,7 @@ export default function CreateTeamForm({
   };
 
   return (
-    <Card className="p-8 w-full max-w-lg min-w-[400px] sm:min-w-0 mx-auto space-y-6">
+    <Card className="p-8 w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6">
       <CardHeader className="p-0 mb-4">
         <h1 className="text-2xl font-bold text-center">Create Team</h1>
       </CardHeader>

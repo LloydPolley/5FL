@@ -64,6 +64,10 @@ export default function PlayerStatsForm({
     }
   };
 
+  if (complete) {
+    return null;
+  }
+
   return (
     <Card className="mb-6">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -103,8 +107,8 @@ export default function PlayerStatsForm({
               score={watch("gk")}
               setScore={(val) => setValue("gk", val)}
               min={0}
-              step={1}
-              max={8}
+              step={0.25}
+              max={1}
             />
 
             <Button type="submit">Save</Button>

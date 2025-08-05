@@ -23,27 +23,29 @@ export default async function Nav() {
     .single();
 
   return (
-    <nav className="flex z-50 rounded-2xl px-5 py-3 justify-between bg-card bg-opacity-80 backdrop-blur-sm sticky top-2 w-full mx-auto">
-      <Link href={"/"}>
-        <Volleyball />
-      </Link>
-      {user ? (
-        <div className="flex justify-between gap-6">
-          <Link href={`/team/${teamData?.id}`}>
-            <PanelsTopLeft />
-          </Link>
-          <Link href={`/create/game`}>
-            <Plus />
-          </Link>
-          <Link href={`/settings`}>
-            <Settings />
-          </Link>
-        </div>
-      ) : (
-        <Link href={`/login`}>
-          <ScanFace />
+    <nav className="z-50 px-5 py-3 bg-card bg-opacity-80 backdrop-blur-sm sticky top-0 w-full mx-auto border-b">
+      <div className="max-w-7xl px-4 py-2 mx-auto flex justify-between items-center">
+        <Link href={"/"}>
+          <Volleyball />
         </Link>
-      )}
+        {user ? (
+          <div className="flex justify-between gap-6">
+            <Link href={`/team/${teamData?.id}`}>
+              <PanelsTopLeft />
+            </Link>
+            <Link href={`/create/game`}>
+              <Plus />
+            </Link>
+            <Link href={`/settings`}>
+              <Settings />
+            </Link>
+          </div>
+        ) : (
+          <Link href={`/login`}>
+            <ScanFace />
+          </Link>
+        )}
+      </div>
     </nav>
   );
 }

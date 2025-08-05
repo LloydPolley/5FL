@@ -43,21 +43,19 @@ export default function StatsTableCard({
   opponent_score,
   opponent,
 }: StatsTableCardProps) {
-  const columnWidthClass = `w-[${100 / headers.length}%]`;
-
   return (
     <Card>
       {team_score && (
-        <div className="px-4 py-4">
-          <p className="text-xs text-center text-zinc-400 mb-1 tracking-wide">
+        <div className="p-4 border-b">
+          <p className="text-xs text-center mb-1 tracking-wide">
             {new Date(date || "").toDateString()}
           </p>
           <div className="flex justify-between text-center font-medium text-sm">
-            <p className="w-1/3 text-zinc-100">Ballers</p>
-            <p className="w-1/3 text-white">
+            <p className="w-1/3">Ballers</p>
+            <p className="w-1/3">
               {team_score} - {opponent_score}
             </p>
-            <p className="w-1/3 text-zinc-100">{opponent}</p>
+            <p className="w-1/3">{opponent}</p>
           </div>
         </div>
       )}
@@ -67,7 +65,7 @@ export default function StatsTableCard({
         <TableHeader>
           <TableRow className="text-center">
             {headers.map(({ key, label }) => (
-              <TableHead className="text-center" key={key}>
+              <TableHead className="text-center font-bold" key={key}>
                 {label}
               </TableHead>
             ))}
