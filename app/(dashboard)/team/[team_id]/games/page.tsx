@@ -21,9 +21,9 @@ export default async function Games({
   const { season_id } = await searchParams;
 
   const { data: teamData } = await supabase
-    .from("teams")
-    .select()
-    .eq("id", team_id)
+    .from("seasons")
+    .select("*, teams!inner(id, manager, name)")
+    .eq("teams.id", team_id)
     .limit(1)
     .single();
 
@@ -33,10 +33,15 @@ export default async function Games({
     .eq("season_id", season_id);
 
   console.log("data", data);
+  console.log("teamData", teamData);
+
+  if (!teamData) {
+    return <div>Team not found</div>;
+  }
 
   return (
     <div className="wrapper">
-      <TableHeader season={teamData.season} team={teamData.name} />
+      <TableHeader season={teamData.name} team={teamData.teams.name} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {data?.map((game) => {
           const {

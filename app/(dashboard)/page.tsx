@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import Hero from "@/components/Hero/Hero";
+import Hero1 from "@/components/Hero/Hero1";
 import {
   Card,
   CardContent,
@@ -10,6 +11,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselPrevious,
+  CarouselNext,
+  CarouselItem,
+} from "@/components/ui/carousel";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -21,27 +29,9 @@ export default async function Home() {
   console.log("user", user);
 
   return (
-    <div className="wrapper">
-      <Hero user={user} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-start">
-        {teams?.map((team) => (
-          <Link key={team.id} href={`/team/${team.id}`}>
-            <Card className="w-[80%] md:w-auto mx-auto min-h-48 flex flex-col justify-between bg-card">
-              <CardHeader>
-                <CardDescription>Team</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <CardTitle className="text-center">{team.name}</CardTitle>
-              </CardContent>
-              <CardFooter className="text-right">
-                <Button className="ml-auto" variant="default">
-                  View Team
-                </Button>
-              </CardFooter>
-            </Card>
-          </Link>
-        ))}
-      </div>
+    <div className="">
+      <Hero />
+      <Hero1 teams={teams} />
     </div>
   );
 }

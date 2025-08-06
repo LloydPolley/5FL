@@ -116,16 +116,16 @@ export default function CreateTeamForm({
 
             <div className="space-y-3">
               {existingPlayers.map((p, i) => (
-                <div
+                <Card
                   key={`existing-${p.name}-${i}`}
                   className="flex justify-between items-center bg-gray-100 text-gray-900 rounded-xl py-3 px-5"
                 >
                   <p className="font-medium">{p.name}</p>
-                </div>
+                </Card>
               ))}
 
               {newPlayers.map((name, i) => (
-                <div
+                <Card
                   key={`new-${name}-${i}`}
                   className="flex justify-between items-center bg-gray-100 text-gray-900 rounded-xl py-3 px-5 hover:shadow-sm transition"
                 >
@@ -137,7 +137,7 @@ export default function CreateTeamForm({
                   >
                     <X />
                   </button>
-                </div>
+                </Card>
               ))}
             </div>
 

@@ -25,7 +25,7 @@ export default async function Games() {
   return (
     <div className="wrapper">
       <TableHeader season="" team="Edit Game" />
-      <div className="space-y-4">
+      <div className="space-y-4 w-[80%] mx-auto">
         {games?.map((game) => (
           <Card key={game.id}>
             <Link

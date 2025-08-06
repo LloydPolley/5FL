@@ -37,7 +37,7 @@ export default function ScoreWidget({
 
   return (
     <div className="flex justify-between items-center">
-      <p className="w-24 text-md">{text}</p>
+      <p className="text-md w-[50%]">{text}</p>
 
       <div className="border rounded-md flex p-4 font-bold w-[50%]">
         <button type="button" onClick={decrement} className="w-1/2 text-center">
