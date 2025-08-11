@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import PlayerStatsForm from "@/components/forms/PlayerStatsForm/PlayerStatsForm";
+import PlayerStatsForm from "@/components/Forms/PlayerStatsForm/PlayerStatsForm";
 
 export default async function Games({
   searchParams,
@@ -20,7 +20,7 @@ export default async function Games({
     return <div>Error loading team members</div>;
   }
 
-  console.log("data", data);
+  console.log("data2222", data);
 
   return (
     <div className="space-y-4 my-4">

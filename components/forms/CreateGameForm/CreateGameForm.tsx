@@ -1,7 +1,7 @@
 "use client";
 
 import { createGame } from "@/actions/games/createGame";
-import ScoreWidget from "@components/ScoreWidget/ScoreWidget";
+import ScoreWidget from "@components/Forms/ScoreWidget/ScoreWidget";
 import {
   Form,
   FormField,
@@ -24,6 +24,7 @@ import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import Link from "next/link";
 import {
   Select,
   SelectContent,
@@ -78,10 +79,8 @@ export default function CreateGameForm({
   };
 
   return (
-    <Card className="p-8 w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6">
-      <CardHeader className="p-0 mb-4">
-        <h1 className="text-2xl font-bold text-center">Add Game</h1>
-      </CardHeader>
+    <div className="w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6 text-left">
+      <h1 className="text-2xl font-bold text-center">Add Game</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -205,6 +204,9 @@ export default function CreateGameForm({
           </Button>
         </form>
       </Form>
-    </Card>
+      <Button className="mt-6 mx-auto" asChild variant="outline">
+        <Link href="/edit">Edit Game</Link>
+      </Button>
+    </div>
   );
 }

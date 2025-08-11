@@ -1,7 +1,7 @@
-import CreateTeamForm from "@/components/forms/CreateTeamForm/CreateTeamForm";
+import CreateTeamForm from "@/components/Forms/CreateTeamForm/CreateTeamForm";
 import { createClient } from "@/utils/supabase/server";
 
-import RadioButtons from "@/components/RadioButtons/RadioButtons";
+import SectionTabs from "@/components/Tabs/Tabs";
 
 export default async function TeamSettings() {
   const supabase = await createClient();
@@ -19,10 +19,5 @@ export default async function TeamSettings() {
     .select("*")
     .eq("team_id", team?.id);
 
-  return (
-    <div className="wrapper">
-      <RadioButtons activeSection="team" />
-      <CreateTeamForm teamId={team?.id} users={users} />
-    </div>
-  );
+  return <CreateTeamForm teamId={team?.id} users={users} />;
 }

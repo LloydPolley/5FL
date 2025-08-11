@@ -1,4 +1,5 @@
 import Nav from "@/components/Nav/Nav";
+import SideBar from "@/components/SideBar/SideBar";
 
 export default function RootLayout({
   children,
@@ -8,7 +9,10 @@ export default function RootLayout({
   return (
     <>
       <Nav />
-      <main className="mx-auto max-w-7xl p-4">{children}</main>
+      <main className="mx-auto max-w-5xl p-4 flex flex-row">
+        <SideBar />
+        {children}
+      </main>
     </>
   );
 }

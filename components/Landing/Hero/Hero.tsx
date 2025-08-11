@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
-export default function Hero() {
+export default function Hero({ user }: { user: any }) {
   return (
     <section
       className="relative overflow-hidden px-8 py-20 lg:py-32 bg-white rounded-2xl"
@@ -23,22 +23,24 @@ export default function Hero() {
             Stay on top of your team’s progress, performance, and stats - all in
             one place.
           </p>
-          <div className="flex gap-4 justify-center lg:justify-start">
-            <Button
-              className="px-6 py-3 text-base font-semibold transition-transform hover:scale-105"
-              asChild
-              variant="default"
-            >
-              <Link href="/signup">Create Team</Link>
-            </Button>
-            <Button
-              className="px-6 py-3 text-base font-semibold transition-transform hover:scale-105"
-              asChild
-              variant="outline"
-            >
-              <Link href="/login">Login</Link>
-            </Button>
-          </div>
+          {!user && (
+            <div className="flex gap-4 justify-center lg:justify-start">
+              <Button
+                className="px-6 py-3 text-base font-semibold transition-transform hover:scale-105"
+                asChild
+                variant="default"
+              >
+                <Link href="/signup">Create Team</Link>
+              </Button>
+              <Button
+                className="px-6 py-3 text-base font-semibold transition-transform hover:scale-105"
+                asChild
+                variant="outline"
+              >
+                <Link href="/login">Login</Link>
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="hidden lg:block">

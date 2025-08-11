@@ -1,6 +1,6 @@
-import StatsTable from "@/components/StatsTable/StatsTable";
+import StatsTable from "@/components/Tables/StatsTableCard/StatsTableCard";
 import { createClient } from "@/utils/supabase/server";
-import TableHeader from "@/components/TableHeader/TableHeader";
+import TableHeader from "@/components/Tables/TableHeader/TableHeader";
 
 const headers = [
   { key: "name", label: "Player", align: "left" },
@@ -30,17 +30,15 @@ export default async function Games({
   const { data } = await supabase
     .from("games")
     .select(`*, game_players (*, users (*))`)
-    .eq("season_id", season_id);
-
-  console.log("data", data);
-  console.log("teamData", teamData);
+    .eq("season_id", season_id)
+    .order("date", { ascending: false });
 
   if (!teamData) {
     return <div>Team not found</div>;
   }
 
   return (
-    <div className="wrapper">
+    <>
       <TableHeader season={teamData.name} team={teamData.teams.name} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {data?.map((game) => {
@@ -74,6 +72,6 @@ export default async function Games({
           );
         })}
       </div>
-    </div>
+    </>
   );
 }

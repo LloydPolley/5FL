@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import CreateGameForm from "@/components/forms/CreateGameForm/CreateGameForm";
-import RadioButtons from "@/components/RadioButtons/RadioButtons";
+import CreateGameForm from "@/components/Forms/CreateGameForm/CreateGameForm";
+import SectionTabs from "@/components/Tabs/Tabs";
 import { Button } from "@/components/ui/button";
 
 export default async function Games({
@@ -49,16 +49,12 @@ export default async function Games({
   }
 
   return (
-    <div className="wrapper">
-      <RadioButtons activeSection="game" />
+    <>
       {seasons?.length ? (
         <CreateGameForm teamId={team_id} result={game} seasons={seasons} />
       ) : (
         <p className="text-gray-500">No seasons available.</p>
       )}
-      <Button className="mt-6 w-full" asChild variant="ghost">
-        <Link href="/edit">Edit Game</Link>
-      </Button>
-    </div>
+    </>
   );
 }

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { ArrowDownRight, Volleyball } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import TableHeader from "@/components/TableHeader/TableHeader";
+import TableHeader from "@/components/Tables/TableHeader/TableHeader";
 
 export default async function Games() {
   const supabase = await createClient();
