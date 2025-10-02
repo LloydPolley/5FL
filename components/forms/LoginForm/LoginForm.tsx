@@ -21,7 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "./schema";
 import z from "zod";
 
-export default function SignUpForm() {
+export default function LoginForm() {
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
