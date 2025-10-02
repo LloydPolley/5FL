@@ -1,7 +1,5 @@
 "use client";
 
-import { Volleyball } from "lucide-react";
-import { useActionState } from "react";
 import Link from "next/link";
 
 import { signup } from "@/actions/auth/signup";
