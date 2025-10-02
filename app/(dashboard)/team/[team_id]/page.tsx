@@ -39,7 +39,7 @@ export default async function Overview({
   const { data: quickOverviewStats, error: QuickOverviewStatsError } =
     await supabase.rpc("get_team_stats", {
       p_team_id: team_id,
-      p_season_id: season_id,
+      p_season_id: season_id || seasons?.[0]?.id.toString(),
     });
 
   // 🆕 Fetch game data for the season

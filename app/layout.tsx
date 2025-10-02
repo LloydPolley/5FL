@@ -28,7 +28,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${urbanist.variable} antialiased min-h-screen bg-background`}
       >
-        <main className="flex-1 w-full">{children}</main>
+        <main className="flex-1 w-full bg-gradient-to-r from-neutral-200 to-gray-200 ">
+          {children}
+        </main>
       </body>
     </html>
   );

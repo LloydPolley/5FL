@@ -57,16 +57,6 @@ export default async function QuickStatsCards({
       iconColor: "text-blue-600",
     },
     {
-      title: "Total Goals",
-      value: totalGoals,
-      icon: Target,
-      subText: `${goalsPerGame} per game average`,
-      trend: "positive",
-      color: "text-green-600",
-      bgColor: "bg-green-50",
-      iconColor: "text-green-600",
-    },
-    {
       title: "Goal Difference",
       value: goalDifference > 0 ? `+${goalDifference}` : goalDifference,
       icon: goalDifference >= 0 ? TrendingUp : TrendingDown,
@@ -85,26 +75,6 @@ export default async function QuickStatsCards({
       color: winRate >= 50 ? "text-emerald-600" : "text-orange-600",
       bgColor: winRate >= 50 ? "bg-emerald-50" : "bg-orange-50",
       iconColor: winRate >= 50 ? "text-emerald-600" : "text-orange-600",
-    },
-    {
-      title: "Total Games",
-      value: totalGames,
-      icon: Calendar,
-      subText: `${totalGames} matches played`,
-      trend: "neutral",
-      color: "text-slate-600",
-      bgColor: "bg-slate-50",
-      iconColor: "text-slate-600",
-    },
-    {
-      title: "Squad Size",
-      value: totalPlayers,
-      icon: Users,
-      subText: `Active players`,
-      trend: "neutral",
-      color: "text-purple-600",
-      bgColor: "bg-purple-50",
-      iconColor: "text-purple-600",
     },
   ];
 

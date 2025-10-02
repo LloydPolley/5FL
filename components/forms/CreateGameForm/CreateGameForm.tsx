@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Card, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +22,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Trophy } from "lucide-react";
 import Link from "next/link";
 import {
   Select,
@@ -79,22 +78,39 @@ export default function CreateGameForm({
   };
 
   return (
-    <div className="w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6 text-left">
-      <h1 className="text-2xl font-bold text-center">Add Game</h1>
+    <div className="w-full max-w-md mx-auto">
+      {/* Mobile Header */}
+      <div className="lg:hidden mb-8 text-center">
+        <div className="flex items-center justify-center mb-4">
+          <div className="w-10 h-10 bg-zinc-900 rounded-lg flex items-center justify-center">
+            <Trophy className="w-6 h-6 text-white" />
+          </div>
+          <span className="text-zinc-900 text-xl font-semibold ml-3">
+            Fulham Ballers
+          </span>
+        </div>
+      </div>
+
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-semibold text-gray-900 mb-1">Add Game</h1>
+        <p className="text-gray-500">Record your team's match results</p>
+      </div>
+
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          {/* Season */}
           <FormField
             control={form.control}
             name="season"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Season</FormLabel>
+                <FormLabel className="text-sm font-medium text-gray-900">
+                  Season
+                </FormLabel>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full h-11 border-gray-300 focus:border-gray-900 focus:ring-gray-900">
                       <SelectValue placeholder="Select a season" />
                     </SelectTrigger>
                     <SelectContent>
@@ -114,18 +130,21 @@ export default function CreateGameForm({
             )}
           />
 
+          {/* Date */}
           <FormField
             control={form.control}
             name="date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Date</FormLabel>
+                <FormLabel className="text-sm font-medium text-gray-900">
+                  Date
+                </FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-full justify-start text-left font-normal",
+                        "w-full h-11 justify-start text-left font-normal border-gray-300 focus:border-gray-900 focus:ring-gray-900",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -149,31 +168,21 @@ export default function CreateGameForm({
             )}
           />
 
+          {/* Opponent */}
           <FormField
             control={form.control}
             name="opponentName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Opponent Name</FormLabel>
+                <FormLabel className="text-sm font-medium text-gray-900">
+                  Opponent Name
+                </FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Opponent Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="teamScore"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <ScoreWidget
-                    text="Fulham Ballers"
-                    name={field.name}
-                    score={Number(field.value) || 0}
-                    setScore={field.onChange}
+                  <Input
+                    type="text"
+                    placeholder="Enter opponent name"
+                    className="h-11 border-gray-300 focus:border-gray-900 focus:ring-gray-900"
+                    {...field}
                   />
                 </FormControl>
                 <FormMessage />
@@ -181,32 +190,74 @@ export default function CreateGameForm({
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="opponentScore"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <ScoreWidget
-                    text={form.getValues("opponentName") || "Opponent"}
-                    name={field.name}
-                    score={Number(field.value) || 0}
-                    setScore={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {/* Scores */}
+          <div className="space-y-4">
+            <div className="text-center py-4 border-t border-gray-200">
+              <h3 className="text-sm font-medium text-gray-900 mb-1">
+                Final Score
+              </h3>
+              <p className="text-xs text-gray-500">Enter the match result</p>
+            </div>
 
-          <Button type="submit" className="w-full">
-            Add Game
-          </Button>
+            <FormField
+              control={form.control}
+              name="teamScore"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <ScoreWidget
+                      text="Fulham Ballers"
+                      name={field.name}
+                      score={Number(field.value) || 0}
+                      setScore={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="opponentScore"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <ScoreWidget
+                      text={form.getValues("opponentName") || "Opponent"}
+                      name={field.name}
+                      score={Number(field.value) || 0}
+                      setScore={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {/* Submit */}
+          <div className="pt-4">
+            <Button
+              type="submit"
+              className="w-full h-11 bg-gray-900 hover:bg-gray-800 text-white"
+            >
+              Add Game
+            </Button>
+          </div>
         </form>
       </Form>
-      <Button className="mt-6 mx-auto" asChild variant="outline">
-        <Link href="/edit">Edit Game</Link>
-      </Button>
+
+      {/* Edit Link */}
+      <div className="mt-6">
+        <Button
+          className="w-full h-11 text-gray-600 hover:text-gray-900 border-gray-300"
+          asChild
+          variant="outline"
+        >
+          <Link href="/edit">Edit Game</Link>
+        </Button>
+      </div>
     </div>
   );
 }

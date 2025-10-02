@@ -10,7 +10,7 @@ const recentMatches = [
 
 export default function DashboardSideBar({ games, headers, season }) {
   return (
-    <div className="lg:col-span-1">
+    <Card className="lg:col-span-1">
       <CardHeader>
         <CardTitle>Match Overview</CardTitle>
         <p className="text-sm text-muted-foreground">
@@ -19,6 +19,6 @@ export default function DashboardSideBar({ games, headers, season }) {
       </CardHeader>
       {/* 🆕 Game Statistics Section */}
       <GameStatsSelector games={games} headers={headers} season={season} />
-    </div>
+    </Card>
   );
 }

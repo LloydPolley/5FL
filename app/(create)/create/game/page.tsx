@@ -3,6 +3,7 @@ import Link from "next/link";
 import CreateGameForm from "@/components/Forms/CreateGameForm/CreateGameForm";
 import SectionTabs from "@/components/Tabs/Tabs";
 import { Button } from "@/components/ui/button";
+import BrandedSidebar from "@/components/BrandedSideBar/BrandedSideBar";
 
 export default async function Games({
   searchParams,
@@ -49,12 +50,12 @@ export default async function Games({
   }
 
   return (
-    <>
+    <div className="min-h-screen flex w-full">
       {seasons?.length ? (
         <CreateGameForm teamId={team_id} result={game} seasons={seasons} />
       ) : (
         <p className="text-gray-500">No seasons available.</p>
       )}
-    </>
+    </div>
   );
 }
