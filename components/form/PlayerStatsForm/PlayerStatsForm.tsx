@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { addGameStats } from "@/actions/games/addGameStats";
-import ScoreWidget from "@components/Forms/ScoreWidget/ScoreWidget";
+import ScoreWidget from "@components/form/ScoreWidget/ScoreWidget";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";

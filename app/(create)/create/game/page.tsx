@@ -1,9 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import CreateGameForm from "@/components/Forms/CreateGameForm/CreateGameForm";
-import SectionTabs from "@/components/Tabs/Tabs";
-import { Button } from "@/components/ui/button";
-import BrandedSidebar from "@/components/BrandedSideBar/BrandedSideBar";
+import CreateGameForm from "@/components/form/CreateGameForm/CreateGameForm";
 
 export default async function Games({
   searchParams,

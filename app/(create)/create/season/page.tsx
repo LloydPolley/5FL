@@ -1,4 +1,4 @@
-import CreateSeasonForm from "@/components/Forms/CreateSeasonForm/CreateSeasonForm";
+import CreateSeasonForm from "@/components/form/CreateSeasonForm/CreateSeasonForm";
 
 export default async function CreateSeason() {
   return <CreateSeasonForm />;

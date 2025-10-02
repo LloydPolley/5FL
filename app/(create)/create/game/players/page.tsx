@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import PlayerStatsForm from "@/components/Forms/PlayerStatsForm/PlayerStatsForm";
+import PlayerStatsForm from "@/components/form/PlayerStatsForm/PlayerStatsForm";
 
 export default async function Games({
   searchParams,

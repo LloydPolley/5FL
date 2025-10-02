@@ -1,7 +1,5 @@
-import CreateTeamForm from "@/components/Forms/CreateTeamForm/CreateTeamForm";
+import CreateTeamForm from "@/components/form/CreateTeamForm/CreateTeamForm";
 import { createClient } from "@/utils/supabase/server";
-
-import SectionTabs from "@/components/Tabs/Tabs";
 
 export default async function TeamSettings() {
   const supabase = await createClient();
