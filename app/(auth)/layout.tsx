@@ -19,7 +19,7 @@ export default function RootLayout({
           <Volleyball className="size-16" />
         </Link>
       </div>
-      {children}
+      <div className="p-2">{children}</div>
     </div>
   );
 }

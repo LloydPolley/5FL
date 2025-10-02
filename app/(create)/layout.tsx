@@ -7,11 +7,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col h-dvh">
+    <div className="flex flex-col h-dvh bg-gray-50">
       <Nav />
       <main className="flex-1">
         <Tabs />
-        <div className="w-full bg-gray-50 flex p-6 lg:p-12 min-h-screen pt-20">
+        <div className="w-full bg-gray-50 flex p-6 lg:p-12 min-h-screen pt-10">
           {children}
         </div>
       </main>

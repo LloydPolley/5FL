@@ -12,4 +12,9 @@ export default defineConfig({
       provider: "istanbul",
     },
   },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "."),
+    },
+  },
 });

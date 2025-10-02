@@ -1,7 +1,7 @@
 "use client";
 
 import { createGame } from "@/actions/games/createGame";
-import ScoreWidget from "@components/form/ScoreWidget/ScoreWidget";
+import ScoreWidget from "@/components/form/ScoreWidget/ScoreWidget";
 import {
   Form,
   FormField,

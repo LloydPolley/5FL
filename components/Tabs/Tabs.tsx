@@ -22,9 +22,13 @@ export default function SectionTabs({
       onValueChange={(val) => router.push(`/create/${val}`)}
       className="mb-5 w-fit mx-auto"
     >
-      <TabsList className="grid w-fit grid-cols-3 bg-white border-1 border-gray-200">
+      <TabsList className="grid w-fit grid-cols-3 border-1 border-gray-200 bg-gray-50">
         {sections.map((section) => (
-          <TabsTrigger key={section.url} value={section.url}>
+          <TabsTrigger
+            className="rounded-xl text-base"
+            key={section.url}
+            value={section.url}
+          >
             {section.name}
           </TabsTrigger>
         ))}

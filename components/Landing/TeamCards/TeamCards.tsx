@@ -35,7 +35,7 @@ export default function TeamCards({ teams, user }: { teams: any; user: any }) {
         )}
       </div>
 
-      <Carousel className="w-[80%] mx-auto pb-20">
+      <Carousel className="w-[90%] lg:w-[80%] mx-auto pb-20">
         <CarouselContent className="p-2">
           {teams?.map((team: any) => (
             <CarouselItem key={team.id} className="md:basis-1/3">
