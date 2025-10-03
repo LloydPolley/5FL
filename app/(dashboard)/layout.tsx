@@ -10,7 +10,7 @@ export default function RootLayout({
   return (
     <>
       <Nav />
-      <main className="mx-auto max-w-7xl p-4">{children}</main>
+      <main className="mx-auto max-w-7xl md:p-4 bg-white">{children}</main>
     </>
   );
 }

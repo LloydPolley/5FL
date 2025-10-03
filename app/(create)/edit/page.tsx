@@ -23,11 +23,11 @@ export default async function Games() {
     .order("date", { ascending: false });
 
   return (
-    <div className="wrapper">
+    <div className="wrapper min-w-[300px]">
       <TableHeader season="" team="Edit Game" />
       <div className="space-y-4 w-[80%] mx-auto">
         {games?.map((game) => (
-          <Card key={game.id}>
+          <Card key={game.id} className="bg-gray-100 border">
             <Link
               key={game.id}
               href={`/create/game?game_id=${game.id}`}

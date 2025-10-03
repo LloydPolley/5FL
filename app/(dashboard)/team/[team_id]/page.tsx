@@ -26,9 +26,6 @@ export default async function Overview({
     ? seasons?.find((season) => season.id === Number(season_id))
     : seasons?.[0];
 
-  console.log("activeSeason", activeSeason);
-  console.log("activeSeason?.id.toString()", activeSeason?.id.toString());
-
   const { data: playerData, error: playerError } = await supabase.rpc(
     "get_season_player_points",
     {

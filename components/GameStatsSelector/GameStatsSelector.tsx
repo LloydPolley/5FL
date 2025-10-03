@@ -189,7 +189,7 @@ export default function GameStatsSelector({
                                   (b.assists || 0) -
                                   ((a.goals || 0) + (a.assists || 0))
                               )
-                              .slice(0, 5)
+                              .slice(0, 8)
                               .map((player, playerIndex) => {
                                 const isTopScorer =
                                   player.id === topScorer?.id &&
@@ -248,7 +248,7 @@ export default function GameStatsSelector({
                               })}
 
                             {/* Show more indicator */}
-                            {playersWhoPlayed.length > 5 && (
+                            {playersWhoPlayed.length > 8 && (
                               <div className="text-xs text-gray-400 text-center pt-2 border-t border-gray-100">
                                 +{playersWhoPlayed.length - 5} more players
                               </div>

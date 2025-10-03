@@ -26,11 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full mx-auto bg-white">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${urbanist.variable} antialiased min-h-screen bg-background`}
+        className={`${geistSans.variable} ${geistMono.variable} ${urbanist.variable} antialiased min-h-screen`}
       >
-        <main className="flex-1 w-full bg-gradient-to-r from-neutral-200 to-gray-200 ">
-          {children}
-        </main>
+        <main className="flex-1 w-full">{children}</main>
       </body>
     </html>
   );

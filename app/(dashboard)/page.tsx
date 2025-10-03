@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
     <>
-      <section className="px-6 bg-gray-200">
+      <section className="px-6">
         <TeamCards teams={teams} user={user} />
       </section>
 
@@ -23,7 +23,7 @@ export default async function Home() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
             Ready to Get Started?
-          </h2>
+          </h2>{" "}
           <p className="text-xl text-gray-300 mb-8">
             Create your team and start tracking performance today
           </p>

@@ -3,15 +3,6 @@ import { Separator } from "../ui/separator";
 import StatsTable from "../Tables/StatsTableCard/StatsTableCard";
 import BarChartMixed from "../TeamDashboard/BarChartTop/BarChartMixed";
 
-const headers = [
-  { key: "name", label: "Player", align: "left" },
-  { key: "appearances", label: "Apps", align: "center" },
-  { key: "goals", label: "Gls", align: "center" },
-  { key: "assists", label: "Asts", align: "center" },
-  { key: "gk", label: "GK", align: "center" },
-  { key: "points", label: "Points", align: "center" },
-];
-
 export default function DashboardPointsWidget({
   activeSeason,
   playerError,
@@ -23,6 +14,24 @@ export default function DashboardPointsWidget({
   playerData: any;
   topScorers: any;
 }) {
+  console.log("ACTIVE SEASON", activeSeason);
+
+  const { appearance_weight, goals_weight, assist_weight, gk_weight } =
+    activeSeason;
+
+  const headers = [
+    { key: "name", label: "Player", align: "left" },
+    {
+      key: "appearances",
+      label: "Apps",
+      align: "center",
+      points: appearance_weight,
+    },
+    { key: "goals", label: "Gls", align: "center", points: goals_weight },
+    { key: "assists", label: "Asts", align: "center", points: assist_weight },
+    { key: "gk", label: "GK", align: "center", points: gk_weight },
+    { key: "points", label: "Points", align: "center" },
+  ];
   return (
     <div className="lg:col-span-2">
       {activeSeason && !playerError ? (
@@ -45,15 +54,6 @@ export default function DashboardPointsWidget({
               </h3>
               <StatsTable headers={headers} players={playerData} />
             </div>
-
-            <Separator />
-
-            {/* <div>
-              <h3 className="font-semibold mb-4 text-gray-900">
-                Performance Trends
-              </h3>
-              <BarChartMixed stats={topScorers} />
-            </div> */}
           </CardContent>
         </Card>
       ) : (

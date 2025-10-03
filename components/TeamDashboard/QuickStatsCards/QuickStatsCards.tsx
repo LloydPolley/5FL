@@ -101,7 +101,7 @@ export default async function QuickStatsCards({
       {cardInfo.map((card, index) => (
         <Card
           key={card.title}
-          className="group hover:shadow-lg transition-all duration-300 border-l-4 border-l-transparent hover:border-l-blue-500 cursor-pointer relative overflow-hidden"
+          className="group hover:shadow-lg transition-all border duration-300 cursor-pointer relative overflow-hidden"
         >
           {/* Subtle background pattern */}
           <div
@@ -113,7 +113,7 @@ export default async function QuickStatsCards({
               {card.title}
             </CardTitle>
             <div
-              className={`p-2 rounded-full ${card.bgColor} group-hover:scale-110 transition-transform duration-300`}
+              className={`p-2 rounded-full ${card.bgColor} transition-transform duration-300`}
             >
               <card.icon className={`h-4 w-4 ${card.iconColor}`} />
             </div>
@@ -121,11 +121,11 @@ export default async function QuickStatsCards({
 
           <CardContent className="relative z-10">
             <div
-              className={`text-2xl font-bold ${card.color} group-hover:scale-105 transition-transform duration-300`}
+              className={`text-2xl font-bold ${card.color} transition-transform duration-300`}
             >
               {card.value}
             </div>
-            <p className="text-xs text-muted-foreground mt-1 group-hover:text-gray-600 transition-colors">
+            <p className="text-xs text-muted-foreground mt-1 transition-colors">
               {card.subText}
             </p>
 

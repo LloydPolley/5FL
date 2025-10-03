@@ -40,7 +40,7 @@ export default function TeamCards({ teams, user }: { teams: any; user: any }) {
           {teams?.map((team: any) => (
             <CarouselItem key={team.id} className="md:basis-1/3">
               <Link href={`/team/${team.id}`}>
-                <Card className="w-[95%] px-4 py-6 mx-auto min-h-[350px] flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:scale-[1.02] shadow-md">
+                <Card className="w-[95%] px-4 py-6 bg-gray-100 mx-auto min-h-[350px] border flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:scale-[1.02] shadow-md">
                   <CardContent>
                     <CardTitle className="text-5xl">{team.name}</CardTitle>
                   </CardContent>

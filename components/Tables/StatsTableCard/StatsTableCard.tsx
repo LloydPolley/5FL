@@ -50,7 +50,6 @@ export default function StatsTableCard({
   const enhancedHeaders = headers.map((header) => ({
     ...header,
     align: header.key === "name" || header.key === "player" ? "left" : "center",
-    icon: getHeaderIcon(header.key),
   }));
 
   // Sort players by points (descending) for better UX
@@ -129,7 +128,7 @@ export default function StatsTableCard({
           </TableCaption>
           <TableHeader>
             <TableRow className="bg-gray-50/80 hover:bg-gray-50">
-              {enhancedHeaders.map(({ key, label, align, icon: Icon }) => (
+              {enhancedHeaders.map(({ key, label, align, points }) => (
                 <TableHead
                   key={key}
                   className={`font-semibold text-gray-700 ${
@@ -141,8 +140,8 @@ export default function StatsTableCard({
                   } py-3`}
                 >
                   <div className="flex items-center gap-2 justify-center">
-                    {Icon && <Icon className="h-4 w-4" />}
                     <span>{label}</span>
+                    <span>{points}</span>
                   </div>
                 </TableHead>
               ))}
@@ -214,9 +213,6 @@ export default function StatsTableCard({
                               <span className="group-hover:text-blue-700 transition-colors">
                                 {content}
                               </span>
-                              {isTopPerformer && (
-                                <Trophy className="h-4 w-4 text-amber-500" />
-                              )}
                             </div>
                           )}
 
@@ -230,9 +226,6 @@ export default function StatsTableCard({
                               >
                                 {content}
                               </span>
-                              {isTopScorer && (
-                                <Target className="h-3 w-3 text-green-500" />
-                              )}
                             </div>
                           )}
 
@@ -246,9 +239,6 @@ export default function StatsTableCard({
                               >
                                 {content}
                               </span>
-                              {isTopAssister && (
-                                <Users className="h-3 w-3 text-blue-500" />
-                              )}
                             </div>
                           )}
 

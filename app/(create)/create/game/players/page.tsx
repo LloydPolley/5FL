@@ -16,14 +16,11 @@ export default async function Games({
   });
 
   if (!data || error) {
-    console.log("error", error);
     return <div>Error loading team members</div>;
   }
 
-  console.log("data2222", data);
-
   return (
-    <div className="space-y-4 my-4">
+    <div className="space-y-4 my-4 w-[80%] mx-auto">
       {data.players.map((player: any) => {
         const { name } = player;
         return <PlayerStatsForm key={name} gameId={game_id} player={player} />;

@@ -69,7 +69,7 @@ export default function PlayerStatsForm({
   }
 
   return (
-    <Card className="mb-6">
+    <Card className="mb-6 border">
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardHeader className="flex-row justify-between items-center">
           <CardTitle className="text-2xl font-medium">
