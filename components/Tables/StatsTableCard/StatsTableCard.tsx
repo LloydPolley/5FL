@@ -139,9 +139,13 @@ export default function StatsTableCard({
                       : "text-center"
                   } py-3`}
                 >
-                  <div className="flex items-center gap-2 justify-center">
-                    <span>{label}</span>
-                    <span>{points}</span>
+                  <div className="flex flex-col items-center justify-end h-5">
+                    <p className="text-xs text-center text-gray-300">
+                      {points || "W"}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center justify-end">
+                    <p>{label}</p>
                   </div>
                 </TableHead>
               ))}
