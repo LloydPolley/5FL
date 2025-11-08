@@ -79,7 +79,7 @@ export default function CreateTeamForm({
   };
 
   return (
-    <Card className="p-8 w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6">
+    <div>
       <CardHeader className="p-0 mb-4">
         <h1 className="text-2xl font-bold text-center">Create Team</h1>
       </CardHeader>
@@ -118,7 +118,7 @@ export default function CreateTeamForm({
               {existingPlayers.map((p, i) => (
                 <Card
                   key={`existing-${p.name}-${i}`}
-                  className="flex justify-between items-center bg-gray-100 text-gray-900 rounded-xl py-3 px-5"
+                  className="flex justify-between items-center rounded-xl py-3 px-5"
                 >
                   <p className="font-medium">{p.name}</p>
                 </Card>
@@ -127,7 +127,7 @@ export default function CreateTeamForm({
               {newPlayers.map((name, i) => (
                 <Card
                   key={`new-${name}-${i}`}
-                  className="flex justify-between items-center bg-gray-100 text-gray-900 rounded-xl py-3 px-5 hover:shadow-sm transition"
+                  className="flex justify-between items-center rounded-xl py-3 px-5 hover:shadow-sm transition"
                 >
                   <p className="font-medium">{name}</p>
                   <button
@@ -141,12 +141,12 @@ export default function CreateTeamForm({
               ))}
             </div>
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" size={"lg"}>
               Submit Team
             </Button>
           </form>
         </Form>
       </CardContent>
-    </Card>
+    </div>
   );
 }

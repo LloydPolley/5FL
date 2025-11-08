@@ -42,9 +42,9 @@ export default async function QuickStatsCards({
       icon: Trophy,
       subText: `${topScorer.goals} goals this season`,
       trend: "positive",
-      color: "text-amber-600",
-      bgColor: "bg-amber-50",
-      iconColor: "text-amber-600",
+      color: "text-purple-600",
+      bgColor: "bg-purple-50",
+      iconColor: "text-purple-600",
     },
     {
       title: "Top Assists",
@@ -101,19 +101,18 @@ export default async function QuickStatsCards({
       {cardInfo.map((card, index) => (
         <Card
           key={card.title}
-          className="group hover:shadow-lg transition-all border duration-300 cursor-pointer relative overflow-hidden"
+          className="group  transition-all border duration-300 cursor-pointer relative overflow-hidden"
         >
-          {/* Subtle background pattern */}
           <div
-            className={`absolute inset-0 ${card.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+            className={`absolute inset-0 ${card.bgColor} opacity-0 transition-opacity duration-300`}
           ></div>
 
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-            <CardTitle className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors">
+            <CardTitle className="text-sm font-medium transition-colors">
               {card.title}
             </CardTitle>
             <div
-              className={`p-2 rounded-full ${card.bgColor} transition-transform duration-300`}
+              className={`p-2 rounded-full border transition-transform duration-300`}
             >
               <card.icon className={`h-4 w-4 ${card.iconColor}`} />
             </div>

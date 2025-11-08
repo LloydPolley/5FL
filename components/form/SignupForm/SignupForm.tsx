@@ -35,7 +35,7 @@ export default function SignUpForm() {
     await signup(data);
   };
   return (
-    <Card className="p-8 w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6">
+    <div className="p-8 w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6">
       <CardHeader className="p-0 mb-4">
         <h1 className="text-2xl font-bold text-center">Create an Account</h1>
       </CardHeader>
@@ -50,7 +50,6 @@ export default function SignUpForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input placeholder="Email Address" {...field} />
                 </FormControl>
@@ -64,7 +63,6 @@ export default function SignUpForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="Password" {...field} />
                 </FormControl>
@@ -78,7 +76,6 @@ export default function SignUpForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input placeholder="First Name" {...field} />
                 </FormControl>
@@ -92,7 +89,6 @@ export default function SignUpForm() {
             name="teamName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Team Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Team Name" {...field} />
                 </FormControl>
@@ -101,7 +97,7 @@ export default function SignUpForm() {
             )}
           />
 
-          <Button className="w-full" type="submit">
+          <Button className="w-full" size="md" type="submit">
             Sign Up
           </Button>
         </form>
@@ -112,6 +108,6 @@ export default function SignUpForm() {
           <Button variant="link">Already have an account? Log in</Button>
         </Link>
       </div>
-    </Card>
+    </div>
   );
 }

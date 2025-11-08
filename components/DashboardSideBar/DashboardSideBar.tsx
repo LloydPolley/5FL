@@ -8,7 +8,7 @@ const recentMatches = [
   { opponent: "Rangers", result: "W", score: "4-0", date: "Dec 30" },
 ];
 
-export default function DashboardSideBar({ games, headers, season }) {
+export default function DashboardSideBar({ games, headers, season }: any) {
   return (
     <Card className="lg:col-span-1">
       <CardHeader>

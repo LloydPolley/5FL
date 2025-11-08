@@ -49,9 +49,7 @@ export default function DashboardPointsWidget({
           </CardHeader>
           <CardContent className="space-y-8">
             <div>
-              <h3 className="font-semibold mb-4 text-gray-900">
-                Player Statistics
-              </h3>
+              <h3 className="font-semibold mb-4">Player Statistics</h3>
               <StatsTable headers={headers} players={playerData} />
             </div>
           </CardContent>

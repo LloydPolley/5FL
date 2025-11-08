@@ -36,9 +36,9 @@ export default function LoginForm() {
   };
 
   return (
-    <Card className="p-8 w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6">
+    <div className="w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6">
       <CardHeader className="p-0 mb-4">
-        <h1 className="text-2xl font-bold text-center">Sign in</h1>
+        <h1 className="text-2xl font-bold text-center">Log in to 5FL</h1>
       </CardHeader>
 
       <Form {...form}>
@@ -51,7 +51,6 @@ export default function LoginForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input placeholder="Email Address" {...field} />
                 </FormControl>
@@ -65,7 +64,6 @@ export default function LoginForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="Password" {...field} />
                 </FormControl>
@@ -74,7 +72,7 @@ export default function LoginForm() {
             )}
           />
 
-          <Button className="w-full" variant="default" type="submit">
+          <Button className="w-full" variant="default" size="md" type="submit">
             Sign In
           </Button>
         </form>
@@ -85,6 +83,6 @@ export default function LoginForm() {
           <Button variant="link">Don't have an account? Sign up</Button>
         </Link>
       </div>
-    </Card>
+    </div>
   );
 }

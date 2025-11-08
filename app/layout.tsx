@@ -20,15 +20,15 @@ const urbanist = Urbanist({
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" className="h-full mx-auto bg-white">
+    <html lang="en" className="h-full dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${urbanist.variable} antialiased min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} ${urbanist.variable} antialiased min-h-screen bg-background text-foreground`}
       >
-        <main className="flex-1 w-full">{children}</main>
+        <main className="flex-1 w-full mx-auto">{children}</main>
       </body>
     </html>
   );

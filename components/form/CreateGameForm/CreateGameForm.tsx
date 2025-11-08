@@ -78,23 +78,21 @@ export default function CreateGameForm({
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full">
       {/* Mobile Header */}
       <div className="lg:hidden mb-8 text-center">
         <div className="flex items-center justify-center mb-4">
-          <div className="w-10 h-10 bg-zinc-900 rounded-lg flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center">
             <Trophy className="w-6 h-6 text-white" />
           </div>
-          <span className="text-zinc-900 text-xl font-semibold ml-3">
-            Fulham Ballers
-          </span>
+          <span className="text-xl font-semibold ml-3">Fulham Ballers</span>
         </div>
       </div>
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-1">Add Game</h1>
-        <p className="text-gray-500">Record your team's match results</p>
+        <h1 className="text-2xl font-semibold">Add Game</h1>
+        <p>Record your team's match results</p>
       </div>
 
       <Form {...form}>
@@ -105,12 +103,10 @@ export default function CreateGameForm({
             name="season"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm font-medium text-gray-900">
-                  Season
-                </FormLabel>
+                <FormLabel>Season</FormLabel>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="w-full h-11 border-gray-300 focus:border-gray-900 focus:ring-gray-900">
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a season" />
                     </SelectTrigger>
                     <SelectContent>
@@ -136,15 +132,13 @@ export default function CreateGameForm({
             name="date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel className="text-sm font-medium text-gray-900">
-                  Date
-                </FormLabel>
+                <FormLabel>Date</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-full h-11 justify-start text-left font-normal border-gray-300 focus:border-gray-900 focus:ring-gray-900",
+                        "w-full h-11 justify-start text-left",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -174,14 +168,11 @@ export default function CreateGameForm({
             name="opponentName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm font-medium text-gray-900">
-                  Opponent Name
-                </FormLabel>
+                <FormLabel>Opponent Name</FormLabel>
                 <FormControl>
                   <Input
                     type="text"
                     placeholder="Enter opponent name"
-                    className="h-11 border-gray-300 focus:border-gray-900 focus:ring-gray-900"
                     {...field}
                   />
                 </FormControl>
@@ -193,10 +184,8 @@ export default function CreateGameForm({
           {/* Scores */}
           <div className="space-y-4">
             <div className="text-center py-4 border-t border-gray-200">
-              <h3 className="text-sm font-medium text-gray-900 mb-1">
-                Final Score
-              </h3>
-              <p className="text-xs text-gray-500">Enter the match result</p>
+              <h3>Final Score</h3>
+              <p>Enter the match result</p>
             </div>
 
             <FormField
@@ -238,10 +227,7 @@ export default function CreateGameForm({
 
           {/* Submit */}
           <div className="pt-4">
-            <Button
-              type="submit"
-              className="w-full h-11 bg-gray-900 hover:bg-gray-800 text-white"
-            >
+            <Button type="submit" className="w-full" size="lg">
               Add Game
             </Button>
           </div>
@@ -250,11 +236,7 @@ export default function CreateGameForm({
 
       {/* Edit Link */}
       <div className="mt-6">
-        <Button
-          className="w-full h-11 text-gray-600 hover:text-gray-900 border-gray-300"
-          asChild
-          variant="outline"
-        >
+        <Button className="w-full" asChild variant="outline" size="lg">
           <Link href="/edit">Edit Game</Link>
         </Button>
       </div>

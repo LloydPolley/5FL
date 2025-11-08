@@ -66,7 +66,7 @@ export default function CreateSeasonForm() {
   };
 
   return (
-    <Card className="p-8 w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6">
+    <div className="w-full">
       <CardHeader className="p-0 mb-4">
         <h1 className="text-2xl font-bold text-center">Add Season</h1>
       </CardHeader>
@@ -139,6 +139,6 @@ export default function CreateSeasonForm() {
           </form>
         </Form>
       </CardContent>
-    </Card>
+    </div>
   );
 }

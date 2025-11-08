@@ -51,7 +51,7 @@ export default async function Games({
       {seasons?.length ? (
         <CreateGameForm teamId={team_id} result={game} seasons={seasons} />
       ) : (
-        <p className="text-gray-500">No seasons available.</p>
+        <p>No seasons available.</p>
       )}
     </div>
   );

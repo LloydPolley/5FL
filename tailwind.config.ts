@@ -21,6 +21,10 @@ const config: Config = {
           DEFAULT: "var(--secondary)",
           foreground: "var(--secondary-foreground)",
         },
+        cta: {
+          DEFAULT: "var(--cta)",
+          foreground: "var(--cta-foreground)",
+        },
         success: "#3EFF8B",
         danger: "#FF3C5F",
         card: {
@@ -54,13 +58,18 @@ const config: Config = {
           "5": "var(--chart-5)",
         },
       },
+      borderColor: {
+        DEFAULT: "var(--border)",
+      },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        DEFAULT: "var(--radius)",
+        lg: "calc(var(--radius) - 2px)",
+        md: "calc(var(--radius) - 4px)",
+        sm: "calc(var(--radius) - 10px)",
       },
     },
   },
+
   plugins: [require("tailwindcss-animate")],
 };
 
