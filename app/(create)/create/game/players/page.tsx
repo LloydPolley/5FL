@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import PlayerStatsForm from "@/components/form/PlayerStatsForm/PlayerStatsForm";
+import FormHeader from "@/components/form/FormHeader/FormHeader";
 
 export default async function Games({
   searchParams,
@@ -20,12 +21,16 @@ export default async function Games({
   }
 
   return (
-    <div className="space-y-4 my-4 w-[80%] mx-auto">
+    <div className="space-y-6 my-4 mx-auto">
+      <FormHeader
+        title="Add Player Stats"
+        description="Add player stats for this game"
+      />
       {data.players.map((player: any) => {
         const { name } = player;
         return <PlayerStatsForm key={name} gameId={game_id} player={player} />;
       })}
-      <Button asChild variant="outline">
+      <Button asChild variant="ghost" className="w-full">
         <Link href="/create/game">Finish</Link>
       </Button>
     </div>

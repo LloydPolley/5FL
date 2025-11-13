@@ -1,6 +1,5 @@
 import StatsTable from "@/components/Tables/StatsTableCard/StatsTableCard";
 import { createClient } from "@/utils/supabase/server";
-import TableHeader from "@/components/Tables/TableHeader/TableHeader";
 
 const headers = [
   { key: "name", label: "Player", align: "left" },
@@ -39,7 +38,6 @@ export default async function Games({
 
   return (
     <>
-      <TableHeader season={teamData.name} team={teamData.teams.name} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {data?.map((game) => {
           const {
@@ -60,6 +58,7 @@ export default async function Games({
 
           return (
             <div key={id} className="w-full">
+              hello
               <StatsTable
                 headers={headers}
                 players={sortedPlayers}

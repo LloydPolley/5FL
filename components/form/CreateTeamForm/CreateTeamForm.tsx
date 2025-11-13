@@ -19,11 +19,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import FormHeader from "../FormHeader/FormHeader";
+import PlayerForm from "./PlayerForm";
 
 type PlayerType = {
   name: string;
   id?: number;
   team_id?: number;
+  isDisabled?: boolean;
 };
 
 const schema = z.object({
@@ -71,6 +74,10 @@ export default function CreateTeamForm({
     setNewPlayers((prev) => prev.filter((p) => p !== name));
   };
 
+  const disablePlayer = (name: string) => {
+    // setNewPlayers((prev) => prev.filter((p) => p !== name));
+  };
+
   const onSubmit = (data: FormValues) => {
     createTeam({
       teamId,
@@ -78,12 +85,12 @@ export default function CreateTeamForm({
     });
   };
 
+  console.log("existingPlayers", existingPlayers);
+
   return (
     <div>
-      <CardHeader className="p-0 mb-4">
-        <h1 className="text-2xl font-bold text-center">Create Team</h1>
-      </CardHeader>
-      <CardContent>
+      <FormHeader title="Add Team" description="Add and disable players" />
+      <Card>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -91,7 +98,6 @@ export default function CreateTeamForm({
               name="playerName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Add player name</FormLabel>
                   <FormControl>
                     <div className="flex gap-2">
                       <Input
@@ -116,37 +122,29 @@ export default function CreateTeamForm({
 
             <div className="space-y-3">
               {existingPlayers.map((p, i) => (
-                <Card
+                <PlayerForm
                   key={`existing-${p.name}-${i}`}
-                  className="flex justify-between items-center rounded-xl py-3 px-5"
-                >
-                  <p className="font-medium">{p.name}</p>
-                </Card>
+                  name={p.name}
+                  isDisabled={p.isDisabled}
+                  togglePlayer={disablePlayer}
+                />
               ))}
 
               {newPlayers.map((name, i) => (
-                <Card
+                <PlayerForm
                   key={`new-${name}-${i}`}
-                  className="flex justify-between items-center rounded-xl py-3 px-5 hover:shadow-sm transition"
-                >
-                  <p className="font-medium">{name}</p>
-                  <button
-                    type="button"
-                    onClick={() => removePlayer(name)}
-                    className="text-gray-500 hover:text-red-500 transition"
-                  >
-                    <X />
-                  </button>
-                </Card>
+                  name={name}
+                  removePlayer={removePlayer}
+                />
               ))}
             </div>
 
-            <Button type="submit" className="w-full" size={"lg"}>
+            <Button type="submit" className="w-full">
               Submit Team
             </Button>
           </form>
         </Form>
-      </CardContent>
+      </Card>
     </div>
   );
 }

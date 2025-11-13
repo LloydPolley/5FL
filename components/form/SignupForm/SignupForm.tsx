@@ -97,7 +97,7 @@ export default function SignUpForm() {
             )}
           />
 
-          <Button className="w-full" size="md" type="submit">
+          <Button className="w-full" type="submit">
             Sign Up
           </Button>
         </form>

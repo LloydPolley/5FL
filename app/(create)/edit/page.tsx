@@ -2,7 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { ArrowDownRight, Volleyball } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import TableHeader from "@/components/Tables/TableHeader/TableHeader";
+import FormHeader from "@/components/form/FormHeader/FormHeader";
 
 export default async function Games() {
   const supabase = await createClient();
@@ -15,30 +15,36 @@ export default async function Games() {
     .single();
 
   const { team_id } = userData;
-
   const { data: games } = await supabase
     .from("games")
-    .select("*")
+    .select(
+      `*,
+      season:seasons(name)`
+    )
     .eq("team_id", team_id)
     .order("date", { ascending: false });
 
+  console.log("games", games);
+
   return (
     <div className="wrapper min-w-[300px]">
-      <TableHeader season="" team="Edit Game" />
-      <div className="space-y-4 w-[80%] mx-auto">
+      <FormHeader title="Edit Games" description="Select game to edit" />
+      <div className="space-y-3 mt-4">
         {games?.map((game) => (
-          <Card key={game.id} className="bg-gray-100 border">
+          <Card key={game.id} className="border">
             <Link
-              key={game.id}
               href={`/create/game?game_id=${game.id}`}
-              className="flex px-4 py-5"
+              className="flex items-center p-3"
             >
-              <Volleyball className="my-auto mr-8 size-8" />
-              <div className="flex flex-col my-auto">
-                <p className="text-xs">{game.date}</p>
-                <p className="font-bold">{game.opponent}</p>
+              <Volleyball className="w-8 h-8 mr-4" />
+              <div className="flex flex-col">
+                <p className="text-xs text-gray-500">
+                  {new Date(game.date).toLocaleDateString()}
+                </p>
+                <p className="font-semibold">{game.opponent}</p>
+                <p className="text-xs text-gray-400">{game.season.name}</p>
               </div>
-              <ArrowDownRight className="ml-auto my-auto size-8" />
+              <ArrowDownRight className="ml-auto w-6 h-6 text-gray-400" />
             </Link>
           </Card>
         ))}

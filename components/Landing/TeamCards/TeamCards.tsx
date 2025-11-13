@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/card";
 
 export default function TeamCards({ teams, user }: { teams: any; user: any }) {
+  console.log("teams", teams);
   return (
     <div>
       <div
@@ -26,25 +27,25 @@ export default function TeamCards({ teams, user }: { teams: any; user: any }) {
           5 Fantasy League
         </h1>
         <p className="text-base sm:text-lg max-w-xl mx-auto w-[calc(100%-4rem)]">
-          Pick a team to view its matches, stats, and performance.
+          Track your teams stats for each game and season
         </p>
 
         {user && (
           <div className="flex gap-4 justify-center w-[300px] mx-auto">
-            <Button className="basis-1/2" asChild variant="default">
+            <Button className="basis-1/2" asChild variant="default" size="sm">
               <Link href="/create/game">Add game</Link>
             </Button>
-            <Button className="basis-1/2" asChild variant="outline">
+            <Button className="basis-1/2" asChild variant="outline" size="sm">
               <Link href="/create/season">Add season</Link>
             </Button>
           </div>
         )}
         {!user && (
           <div className="flex gap-4 justify-center w-[300px] mx-auto">
-            <Button className="basis-1/2" asChild variant="default">
+            <Button className="basis-1/2" asChild variant="default" size="sm">
               <Link href="/login">Login</Link>
             </Button>
-            <Button className="basis-1/2" asChild variant="outline">
+            <Button className="basis-1/2" asChild variant="outline" size="sm">
               <Link href="/signup">Register</Link>
             </Button>
           </div>
@@ -64,7 +65,7 @@ export default function TeamCards({ teams, user }: { teams: any; user: any }) {
                   </CardHeader>
                   <CardContent></CardContent>
                   <CardFooter className="p-0">
-                    <Button className="w-full" variant="default" size="lg">
+                    <Button className="w-full" variant="default">
                       VIEW TEAM
                     </Button>
                   </CardFooter>

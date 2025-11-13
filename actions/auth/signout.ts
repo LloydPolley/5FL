@@ -2,18 +2,17 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
 import { createClient } from "@/utils/supabase/server";
 
-export async function signout() {
+export async function signout(_: FormData) {
   const supabase = await createClient();
   const { error } = await supabase.auth.signOut();
 
   if (error) {
     console.log("error", error);
     return error;
-  } else {
-    revalidatePath("/", "layout");
-    redirect("/");
   }
+
+  revalidatePath("/", "layout");
+  redirect("/");
 }

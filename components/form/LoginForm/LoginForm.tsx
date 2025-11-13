@@ -1,7 +1,6 @@
 "use client";
 
-import { Volleyball } from "lucide-react";
-import { useActionState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 import { login } from "@/actions/auth/login";
@@ -22,6 +21,8 @@ import { loginSchema } from "./schema";
 import z from "zod";
 
 export default function LoginForm() {
+  const [loading, setLoading] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -30,9 +31,25 @@ export default function LoginForm() {
     },
   });
 
+  useEffect(() => {
+    const subscription = form.watch(() => {
+      if (form.formState.errors.root) {
+        form.clearErrors("root");
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form]);
+
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
-    console.log("data", data);
-    await login(data);
+    setLoading(true);
+
+    try {
+      await login(data);
+    } catch (error) {
+      form.setError("root", { message: "Invalid email or password" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -72,10 +89,20 @@ export default function LoginForm() {
             )}
           />
 
-          <Button className="w-full" variant="default" size="md" type="submit">
-            Sign In
+          <Button
+            className="w-full"
+            variant="default"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Signing in..." : "Sign In"}
           </Button>
         </form>
+        {form.formState.errors.root && (
+          <p className="text-red-500 text-sm text-center">
+            {form.formState.errors.root.message}
+          </p>
+        )}
       </Form>
 
       <div className="text-center mt-4">

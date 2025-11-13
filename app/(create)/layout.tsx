@@ -1,6 +1,5 @@
 import Nav from "@/components/Nav/Nav";
-import Tabs from "@/components/Tabs/Tabs";
-import { Card } from "@/components/ui/card";
+import SubNav from "@/components/Nav/SubNav";
 
 export default function RootLayout({
   children,
@@ -10,11 +9,9 @@ export default function RootLayout({
   return (
     <div className="flex flex-col h-dvh">
       <Nav />
+      <SubNav />
       <main className="flex-1">
-        <Tabs />
-        <div className="max-w-3xl mx-auto p-4">
-          <Card className="w-full p-4">{children}</Card>
-        </div>
+        <div className="max-w-3xl mx-auto p-4">{children}</div>
       </main>
     </div>
   );
