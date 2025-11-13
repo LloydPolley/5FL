@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 export default function Hero({ user }: { user: any }) {
   return (
     <section
-      className="relative overflow-hidden px-8 py-20 lg:py-32 bg-white rounded-2xl"
+      className="relative overflow-hidden px-8 py-20 lg:py-32 rounded-2xl"
       data-testid="hero"
     >
       <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full blur-3xl opacity-50 -z-10" />

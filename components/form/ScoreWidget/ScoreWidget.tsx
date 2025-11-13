@@ -1,7 +1,6 @@
 "use client";
 
 import { Minus, Plus } from "lucide-react";
-import { Input } from "@/components/ui/input";
 
 export default function ScoreWidget({
   text,
@@ -20,44 +19,32 @@ export default function ScoreWidget({
   max?: number;
   step?: number;
 }) {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    if (!isNaN(value)) setScore(value);
-  };
-
-  const increment = () => {
-    const newScore = Math.min(score + step, max);
-    setScore(parseFloat(newScore.toFixed(10)));
-  };
-
-  const decrement = () => {
-    const newScore = Math.max(score - step, min);
-    setScore(parseFloat(newScore.toFixed(10)));
-  };
+  const increment = () => setScore(Math.min(score + step, max));
+  const decrement = () => setScore(Math.max(score - step, min));
 
   return (
-    <div className="flex justify-between items-center">
-      <p className="text-md w-[50%]">{text}</p>
+    <div className="flex items-center justify-between rounded-md p-4 bg-white/5">
+      <p className="text-md font-medium">{text}</p>
 
-      <div className="border rounded-md flex p-4 font-bold w-[50%]">
-        <button type="button" onClick={decrement} className="w-1/2 text-center">
-          <Minus className="w-4 h-4 m-auto" />
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={decrement}
+          className="flex items-center justify-center w-10 h-10 rounded-md border bg-white/10 hover:bg-white/20 transition"
+        >
+          <Minus className="w-5 h-5" />
         </button>
 
-        <Input
-          className="text-center border-none p-0"
-          type="number"
-          name={name}
-          value={score}
-          min={min}
-          max={max}
-          step={step}
-          onChange={handleChange}
-          disabled
-        />
+        <div className="min-w-[2.5rem] text-center text-2xl font-bold tabular-nums">
+          {score}
+        </div>
 
-        <button type="button" onClick={increment} className="w-1/2 text-center">
-          <Plus className="w-4 h-4 m-auto" />
+        <button
+          type="button"
+          onClick={increment}
+          className="flex items-center justify-center w-10 h-10 rounded-md border bg-white/10 hover:bg-white/20 transition"
+        >
+          <Plus className="w-5 h-5" />
         </button>
       </div>
     </div>

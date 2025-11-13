@@ -14,12 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <div className="flex flex-col h-dvh">
-      <div className="mx-auto mb-20">
+      <div className="absolute left-5 top-5">
         <Link href="/">
-          <Volleyball className="size-16" />
+          <Volleyball className="size-8" />
         </Link>
       </div>
-      <div className="p-2">{children}</div>
+      <div className="m-auto w-full max-w-md p-8">{children}</div>
     </div>
   );
 }

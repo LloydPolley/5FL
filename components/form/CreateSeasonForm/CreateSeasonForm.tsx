@@ -9,7 +9,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { createSeason } from "@/actions/seasons/createSeason";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Form,
   FormField,
@@ -27,16 +26,17 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import FormHeader from "@/components/form/FormHeader/FormHeader";
+import { Card } from "@/components/ui/card";
 
 const schema = z.object({
   seasonName: z.string().min(1, "Season name is required"),
-  startDate: z.date({ required_error: "Start date is required" }),
+  startDate: z.date(),
 });
 
 type FormValues = z.infer<typeof schema>;
 
 export default function CreateSeasonForm() {
-  const [serverMessage, setServerMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const form = useForm<FormValues>({
@@ -49,39 +49,27 @@ export default function CreateSeasonForm() {
 
   const onSubmit = async (data: FormValues) => {
     setLoading(true);
-    setServerMessage(null);
 
     try {
       await createSeason({
         seasonName: data.seasonName,
         startDate: format(data.startDate, "yyyy-MM-dd"),
       });
-      setServerMessage("Season added successfully!");
       form.reset();
     } catch (error: any) {
-      setServerMessage(error?.message || "Failed to add season.");
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Card className="p-8 w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6">
-      <CardHeader className="p-0 mb-4">
-        <h1 className="text-2xl font-bold text-center">Add Season</h1>
-      </CardHeader>
-      <CardContent>
-        {serverMessage && (
-          <p
-            className={`text-center mb-4 ${
-              serverMessage.includes("successfully")
-                ? "text-green-600"
-                : "text-red-600"
-            }`}
-          >
-            {serverMessage}
-          </p>
-        )}
+    <div className="w-full">
+      <FormHeader
+        title="Add Season"
+        description="Add a new season to the league"
+      />
+      <Card>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -107,11 +95,8 @@ export default function CreateSeasonForm() {
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-full justify-start text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
+                        variant="input"
+                        className={cn("w-full justify-start text-left")}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {field.value
@@ -124,7 +109,6 @@ export default function CreateSeasonForm() {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>
@@ -138,7 +122,7 @@ export default function CreateSeasonForm() {
             </Button>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </Card>
+    </div>
   );
 }

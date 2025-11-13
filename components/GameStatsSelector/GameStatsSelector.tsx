@@ -56,16 +56,14 @@ export default function GameStatsSelector({
 
   return (
     <div className="space-y-6">
-      <Card>
+      <div>
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-3">
-              <Calendar className="h-5 w-5 text-blue-600" />
+              <Calendar className="h-5 w-5" />
               Game Statistics
             </CardTitle>
-            <div className="text-sm text-gray-500">
-              {games.length} games total
-            </div>
+            <div className="text-sm">{games.length} games total</div>
           </div>
         </CardHeader>
 
@@ -130,7 +128,7 @@ export default function GameStatsSelector({
                     key={game.id}
                     className="pl-2 md:pl-4 basis-full"
                   >
-                    <div className="border-1 border-gray-200 bg-white shadow-sm">
+                    <div className="border-1 border-gray-200 shadow-sm">
                       {/* Game Header */}
                       <div className="p-4 border-b border-gray-100">
                         <div className="flex items-center justify-between mb-3">
@@ -139,7 +137,7 @@ export default function GameStatsSelector({
                           >
                             {result}
                           </div>
-                          <div className="text-sm text-gray-500 font-medium">
+                          <div className="text-sm font-medium">
                             {formatDate(game.date)}
                           </div>
                         </div>
@@ -147,17 +145,15 @@ export default function GameStatsSelector({
                         {/* Teams and Score */}
                         <div className="text-center space-y-3">
                           <div className="flex items-center justify-between">
-                            <span className="font-semibold text-gray-800">
-                              Ballers
-                            </span>
-                            <span className="font-semibold text-gray-800">
+                            <span className="font-semibold">Ballers</span>
+                            <span className="font-semibold">
                               {game.opponent}
                             </span>
                           </div>
 
                           {game.team_score !== undefined &&
                             game.opponent_score !== undefined && (
-                              <div className="text-3xl font-bold text-gray-900">
+                              <div className="text-3xl font-bold">
                                 {game.team_score} - {game.opponent_score}
                               </div>
                             )}
@@ -166,22 +162,20 @@ export default function GameStatsSelector({
 
                       {/* Mini Player Stats Table */}
                       <div className="p-4">
-                        <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-gray-700">
+                        <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
                           <Users className="h-4 w-4" />
                           Player Performance
                         </div>
 
                         {playersWhoPlayed.length > 0 ? (
                           <div className="space-y-2">
-                            {/* Table Header */}
-                            <div className="grid grid-cols-4 gap-2 text-xs font-medium text-gray-500 pb-2 border-b border-gray-200">
+                            <div className="grid grid-cols-4 gap-2 text-xs font-medium pb-2 border-b border-gray-200">
                               <div className="text-left">Player</div>
                               <div className="text-center">G</div>
                               <div className="text-center">A</div>
                               <div className="text-center">GK</div>
                             </div>
 
-                            {/* Player Rows - Show top 5 performers */}
                             {playersWhoPlayed
                               .sort(
                                 (a, b) =>
@@ -203,15 +197,15 @@ export default function GameStatsSelector({
                                     key={player.id || playerIndex}
                                     className="grid grid-cols-4 gap-2 text-sm py-1"
                                   >
-                                    <div className="text-left font-medium text-gray-800 truncate flex items-center gap-1">
+                                    <div className="text-left font-medium truncate flex items-center gap-1">
                                       {player.name}
                                       {(isTopScorer || isTopAssister) && (
                                         <div className="flex gap-1">
                                           {isTopScorer && (
-                                            <Target className="h-3 w-3 text-green-500" />
+                                            <Target className="h-3 w-3" />
                                           )}
                                           {isTopAssister && (
-                                            <Award className="h-3 w-3 text-blue-500" />
+                                            <Award className="h-3 w-3" />
                                           )}
                                         </div>
                                       )}
@@ -219,7 +213,7 @@ export default function GameStatsSelector({
                                     <div
                                       className={`text-center ${
                                         (player.goals || 0) > 0
-                                          ? "font-semibold text-green-600"
+                                          ? "font-semibold"
                                           : "text-gray-500"
                                       }`}
                                     >
@@ -228,7 +222,7 @@ export default function GameStatsSelector({
                                     <div
                                       className={`text-center ${
                                         (player.assists || 0) > 0
-                                          ? "font-semibold text-blue-600"
+                                          ? "font-semibold"
                                           : "text-gray-500"
                                       }`}
                                     >
@@ -237,7 +231,7 @@ export default function GameStatsSelector({
                                     <div
                                       className={`text-center ${
                                         (player.gk || 0) > 0
-                                          ? "font-semibold text-purple-600"
+                                          ? "font-semibold"
                                           : "text-gray-400"
                                       }`}
                                     >
@@ -255,7 +249,7 @@ export default function GameStatsSelector({
                             )}
                           </div>
                         ) : (
-                          <div className="text-center py-4 text-gray-400 text-sm">
+                          <div className="text-center py-4 text-sm">
                             No player data available
                           </div>
                         )}
@@ -264,26 +258,20 @@ export default function GameStatsSelector({
                         <div className="mt-4 pt-3 border-t border-gray-100">
                           <div className="grid grid-cols-3 gap-3 text-center">
                             <div>
-                              <p className="text-lg font-bold text-green-600">
-                                {totalGoals}
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                Total Goals
-                              </p>
+                              <p className="text-lg font-bold">{totalGoals}</p>
+                              <p className="text-xs">Total Goals</p>
                             </div>
                             <div>
-                              <p className="text-lg font-bold text-blue-600">
+                              <p className="text-lg font-bold">
                                 {totalAssists}
                               </p>
-                              <p className="text-xs text-gray-500">
-                                Total Assists
-                              </p>
+                              <p className="text-xs">Total Assists</p>
                             </div>
                             <div>
-                              <p className="text-lg font-bold text-purple-600">
+                              <p className="text-lg font-bold">
                                 {playersWhoPlayed.length}
                               </p>
-                              <p className="text-xs text-gray-500">Players</p>
+                              <p className="text-xs">Players</p>
                             </div>
                           </div>
                         </div>
@@ -297,7 +285,7 @@ export default function GameStatsSelector({
             <CarouselNext className="hidden md:flex" />
           </Carousel>
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

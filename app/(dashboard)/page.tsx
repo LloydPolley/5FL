@@ -27,7 +27,7 @@ export default async function Home() {
           <p className="text-xl text-gray-300 mb-8">
             Create your team and start tracking performance today
           </p>
-          <Button size="lg" className="text-lg px-8 py-4 h-auto">
+          <Button className="text-lg px-8 py-4 h-auto">
             <Link href="/create/team">Create Your Team</Link>
           </Button>
         </div>

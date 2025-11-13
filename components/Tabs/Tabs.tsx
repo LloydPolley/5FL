@@ -18,17 +18,14 @@ export default function SectionTabs({
 
   return (
     <Tabs
+      defaultValue={"game"}
       value={activeSection}
       onValueChange={(val) => router.push(`/create/${val}`)}
-      className="mb-5 w-fit mx-auto"
+      className="w-fit"
     >
-      <TabsList className="grid w-fit grid-cols-3 border-1 border-gray-200 bg-gray-50">
+      <TabsList className="">
         {sections.map((section) => (
-          <TabsTrigger
-            className="rounded-xl text-base"
-            key={section.url}
-            value={section.url}
-          >
+          <TabsTrigger key={section.url} value={section.url}>
             {section.name}
           </TabsTrigger>
         ))}

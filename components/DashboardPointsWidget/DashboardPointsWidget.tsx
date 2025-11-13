@@ -1,18 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Separator } from "../ui/separator";
 import StatsTable from "../Tables/StatsTableCard/StatsTableCard";
-import BarChartMixed from "../TeamDashboard/BarChartTop/BarChartMixed";
 
 export default function DashboardPointsWidget({
   activeSeason,
   playerError,
   playerData,
-  topScorers,
 }: {
   activeSeason: any;
   playerError: any;
   playerData: any;
-  topScorers: any;
 }) {
   console.log("ACTIVE SEASON", activeSeason);
 
@@ -20,17 +16,16 @@ export default function DashboardPointsWidget({
     activeSeason;
 
   const headers = [
-    { key: "name", label: "Player", align: "left" },
+    { key: "name", label: "Player" },
     {
       key: "appearances",
       label: "Apps",
-      align: "center",
       points: appearance_weight,
     },
-    { key: "goals", label: "Gls", align: "center", points: goals_weight },
-    { key: "assists", label: "Asts", align: "center", points: assist_weight },
-    { key: "gk", label: "GK", align: "center", points: gk_weight },
-    { key: "points", label: "Points", align: "center" },
+    { key: "goals", label: "Gls", points: goals_weight },
+    { key: "assists", label: "Asts", points: assist_weight },
+    { key: "gk", label: "GK", points: gk_weight },
+    { key: "points", label: "Pts", align: "center" },
   ];
   return (
     <div className="lg:col-span-2">
@@ -49,9 +44,7 @@ export default function DashboardPointsWidget({
           </CardHeader>
           <CardContent className="space-y-8">
             <div>
-              <h3 className="font-semibold mb-4 text-gray-900">
-                Player Statistics
-              </h3>
+              <h3 className="font-semibold mb-4">Player Statistics</h3>
               <StatsTable headers={headers} players={playerData} />
             </div>
           </CardContent>

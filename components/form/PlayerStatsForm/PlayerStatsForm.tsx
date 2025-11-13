@@ -34,6 +34,7 @@ export default function PlayerStatsForm({
   gameId: string;
 }) {
   const [complete, setComplete] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     name,
     user_id,
@@ -57,11 +58,12 @@ export default function PlayerStatsForm({
   const appearance = watch("appearance");
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log("data", data);
+    setLoading(true);
     const hasAdded = await addGameStats({ ...data, game_id: gameId, user_id });
     if (hasAdded.success) {
       setComplete(true);
     }
+    setLoading(false);
   };
 
   if (complete) {
@@ -71,18 +73,19 @@ export default function PlayerStatsForm({
   return (
     <Card className="mb-6 border">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <CardHeader className="flex-row justify-between items-center">
-          <CardTitle className="text-2xl font-medium">
-            {name}: <span className="text-sm">{user_id}</span>
-          </CardTitle>
+        <div className="flex items-center justify-between px-4 py-3 rounded">
+          <div className="flex items-center gap-3">
+            <div className="w-2.5 h-2.5 rounded-full bg-primary" />
+            <h2 className="text-lg font-semibold tracking-wide">{name}</h2>
+          </div>
           <Switch
             checked={appearance}
             onCheckedChange={(val) => setValue("appearance", val)}
           />
-        </CardHeader>
+        </div>
 
         {appearance && !complete && (
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4  mt-4">
             <ScoreWidget
               text="Goals"
               name="goals"
@@ -111,7 +114,9 @@ export default function PlayerStatsForm({
               max={1}
             />
 
-            <Button type="submit">Save</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? "Saving..." : "Save"}
+            </Button>
           </CardContent>
         )}
       </form>

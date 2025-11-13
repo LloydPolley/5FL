@@ -1,10 +1,4 @@
-import {
-  Settings,
-  Plus,
-  ScanFace,
-  Volleyball,
-  PanelsTopLeft,
-} from "lucide-react";
+import { Gauge, ScanFace, Volleyball, CalendarPlus } from "lucide-react";
 import Link from "next/link";
 
 import { createClient } from "@/utils/supabase/server";
@@ -23,7 +17,7 @@ export default async function Nav() {
     .single();
 
   return (
-    <nav className="z-50 px-5 py-3 bg-card bg-opacity-80 backdrop-blur-sm sticky top-0 w-full mx-auto border-b">
+    <nav className="z-50 px-5 py-3 bg-bapckground sticky top-0 w-full rounded-sm mx-auto">
       <div className="max-w-7xl px-4 py-2 mx-auto flex justify-between items-center">
         <Link href={"/"}>
           <Volleyball />
@@ -31,13 +25,10 @@ export default async function Nav() {
         {user ? (
           <div className="flex justify-between gap-6">
             <Link href={`/team/${teamData?.id}`}>
-              <PanelsTopLeft />
+              <Gauge />
             </Link>
             <Link href={`/create/game`}>
-              <Plus />
-            </Link>
-            <Link href={`/settings`}>
-              <Settings />
+              <CalendarPlus />
             </Link>
           </div>
         ) : (

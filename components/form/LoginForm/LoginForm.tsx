@@ -1,7 +1,6 @@
 "use client";
 
-import { Volleyball } from "lucide-react";
-import { useActionState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 import { login } from "@/actions/auth/login";
@@ -22,6 +21,8 @@ import { loginSchema } from "./schema";
 import z from "zod";
 
 export default function LoginForm() {
+  const [loading, setLoading] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -30,15 +31,31 @@ export default function LoginForm() {
     },
   });
 
+  useEffect(() => {
+    const subscription = form.watch(() => {
+      if (form.formState.errors.root) {
+        form.clearErrors("root");
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form]);
+
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
-    console.log("data", data);
-    await login(data);
+    setLoading(true);
+
+    try {
+      await login(data);
+    } catch (error) {
+      form.setError("root", { message: "Invalid email or password" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <Card className="p-8 w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6">
+    <div className="w-full max-w-lg min-w-[300px] sm:min-w-0 mx-auto space-y-6">
       <CardHeader className="p-0 mb-4">
-        <h1 className="text-2xl font-bold text-center">Sign in</h1>
+        <h1 className="text-2xl font-bold text-center">Log in to 5FL</h1>
       </CardHeader>
 
       <Form {...form}>
@@ -51,7 +68,6 @@ export default function LoginForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input placeholder="Email Address" {...field} />
                 </FormControl>
@@ -65,7 +81,6 @@ export default function LoginForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="Password" {...field} />
                 </FormControl>
@@ -74,10 +89,20 @@ export default function LoginForm() {
             )}
           />
 
-          <Button className="w-full" variant="default" type="submit">
-            Sign In
+          <Button
+            className="w-full"
+            variant="default"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Signing in..." : "Sign In"}
           </Button>
         </form>
+        {form.formState.errors.root && (
+          <p className="text-red-500 text-sm text-center">
+            {form.formState.errors.root.message}
+          </p>
+        )}
       </Form>
 
       <div className="text-center mt-4">
@@ -85,6 +110,6 @@ export default function LoginForm() {
           <Button variant="link">Don't have an account? Sign up</Button>
         </Link>
       </div>
-    </Card>
+    </div>
   );
 }

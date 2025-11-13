@@ -11,7 +11,7 @@ export type FormState = {
   message?: string;
 };
 
-export async function createGame({
+export async function createOrEditGame({
   season_id,
   opponent_name,
   team_score,
@@ -73,7 +73,6 @@ export async function createGame({
     await addAllPlayers({ team_id, season_id, game_id: gameData.id, date });
   }
 
-  // revalidatePath(`/${team_id}/games`);
   redirect(`/create/game/players?game_id=${gameData.id}`);
 }
 
